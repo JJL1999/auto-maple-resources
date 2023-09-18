@@ -1,0 +1,11 @@
+*, x=0.388, y=0.331, frequency=1, skip=False, adjust=True, period=0
+    FlashJumpWithCruelStabRandomDirection, direction=right, jump_times=1
+    Wait, duration=0.2
+    Walk, direction=left, duration=0.2
+    FlashJumpWithCruelStabRandomDirection, direction=right, jump_times=1
+    Wait, duration=0.2
+*, x=0.899, y=0.360, frequency=1, skip=False, adjust=True, period=0
+    FlashJumpWithCruelStabRandomDirection, direction=left, jump_times=2
+    Wait, duration=0.3
+    FlashJumpWithCruelStabRandomDirection, direction=left, jump_times=1
+    Wait, duration=0.2

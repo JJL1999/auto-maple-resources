@@ -1,0 +1,12 @@
+*, x=0.476, y=0.192, frequency=1, skip=False, adjust=True, period=0
+    CruelStab, direction=left, attacks=2, repetitions=1
+    MesoExplosion
+    Wait, duration=0.5
+    CruelStab, direction=right, attacks=2, repetitions=1
+    MesoExplosion
+    Wait, duration=0.5
+    FlashJumpWithCruelStabRandomDirection, direction=up, jump_times=2
+*, x=0.476, y=0.125, frequency=1, skip=False, adjust=False, period=27
+    SuddenRaid
+*, x=0.476, y=0.125, frequency=1, skip=False, adjust=False, period=55
+    ShadowAssault, direction=down, jump=True

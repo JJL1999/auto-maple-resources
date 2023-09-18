@@ -1,0 +1,46 @@
+*, x=0.388, y=0.331, frequency=1, skip=False, adjust=True, period=43
+    KeyControl, key=right, is_up=False
+    ShadowAssault, direction=down
+    KeyControl, key=right, is_up=True
+    Wait, duration=0.15
+    MoveAndAdjust, x=0.590, y=0.482, max_steps=15
+    ShadowVeil, direction=right
+    Wait, duration=0.6
+    FlashJumpWithCruelStabRandomDirection, direction=down, jump_times=1
+    DarkFlare, direction=right
+    Wait, duration=0.15
+    ShadowAssault, direction=right
+    Wait, duration=0.15
+    FlashJump, direction=left, jump_times=1
+    Wait, duration=0.15
+    ShadowAssault, direction=left
+    Wait, duration=0.15
+    MoveAndAdjust, x=0.338, y=0.590, max_steps=15
+    KeyControl, key=left, is_up=False
+    ShadowAssault, direction=up
+    KeyControl, key=left, is_up=True
+    Wait, duration=0.15
+    MoveAndAdjust, x=0.115, y=0.396, max_steps=15
+    ErdaShower, direction=right, jump=False, use_erda_foundation=True
+    Wait, duration=0.3
+    SuddenRaid
+    MesoExplosion
+    Wait, duration=0.4
+    MoveAndAdjust, x=0.180, y=0.396, max_steps=15
+    FlashJumpWithCruelStabRandomDirection, direction=right, jump_times=2
+    Wait, duration=0.15
+*, x=0.388, y=0.331, frequency=1, skip=False, adjust=True, period=0
+    FlashJumpWithCruelStabRandomDirection, direction=right, jump_times=1
+    Wait, duration=0.15
+*, x=0.620, y=0.331, frequency=1, skip=False, adjust=True, period=0
+    FlashJumpWithCruelStabRandomDirection, direction=right, jump_times=1
+    Wait, duration=0.15
+*, x=0.899, y=0.360, frequency=1, skip=False, adjust=True, period=0
+    CruelStab, direction=left, attacks=2, repetitions=1
+    MesoExplosion
+    Wait, duration=0.15
+    FlashJumpWithCruelStabRandomDirection, direction=left, jump_times=2
+    Wait, duration=0.15
+*, x=0.626, y=0.331, frequency=1, skip=False, adjust=True, period=0
+    FlashJumpWithCruelStabRandomDirection, direction=left, jump_times=1
+    Wait, duration=0.15

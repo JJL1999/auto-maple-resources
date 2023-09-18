@@ -1,0 +1,3 @@
+*, x=0.720, y=0.029, frequency=1, skip=False, adjust=False
+    Wait, duration=0.5
+*, x=0.483, y=0.184, frequency=1, skip=False, adjust=False

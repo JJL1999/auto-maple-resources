@@ -1,0 +1,27 @@
+*, x=0.779, y=0.266, frequency=1, skip=False, adjust=False, period=0
+    FlashJumpWithCruelStabRandomDirection, direction=left, jump_times=1
+*, x=0.650, y=0.266, frequency=1, skip=False, adjust=False, period=0
+    FlashJumpWithCruelStabRandomDirection, direction=left, jump_times=2
+*, x=0.430, y=0.266, frequency=1, skip=False, adjust=False, period=0
+    FlashJumpWithCruelStabRandomDirection, direction=left, jump_times=1
+*, x=0.302, y=0.266, frequency=1, skip=False, adjust=True, period=0
+    KeyControl, key=left, is_up=False
+    FlashJumpWithCruelStabRandomDirection, direction=up, jump_times=1
+    KeyControl, key=left, is_up=True
+*, x=0.212, y=0.183, frequency=1, skip=False, adjust=True, period=55
+    ErdaShower, direction=left, jump=False, use_erda_foundation=True
+    Wait, duration=0.5
+*, x=0.245, y=0.183, frequency=1, skip=False, adjust=True, period=0
+    FlashJumpWithCruelStabRandomDirection, direction=right, jump_times=1
+*, x=0.386, y=0.159, frequency=1, skip=False, adjust=False, period=0
+    FlashJumpWithCruelStabRandomDirection, direction=right, jump_times=2
+*, x=0.575, y=0.126, frequency=1, skip=False, adjust=False, period=55
+    DarkFlare, direction=left
+    Wait, duration=0.2
+*, x=0.575, y=0.126, frequency=1, skip=False, adjust=False, period=0
+    FlashJumpWithCruelStabRandomDirection, direction=right, jump_times=1
+    Wait, duration=0.1
+    CruelStabRandomDirection
+    Wait, duration=0.3
+    FlashJump, direction=down, jump_times=1
+    Wait, duration=0.15
