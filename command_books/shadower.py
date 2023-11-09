@@ -63,7 +63,7 @@ def step(direction, target):
 
     num_presses = 2
     if direction == 'up' or direction == 'down':
-        num_presses = 1
+        num_presses = 0
     if config.stage_fright and direction != 'up' and utils.bernoulli(0.75):
         time.sleep(utils.rand_float(0.1, 0.3))
     d_y = target[1] - config.player_pos[1]
@@ -71,13 +71,7 @@ def step(direction, target):
         press(Key.JUMP, 3)
         time.sleep(1)
     elif direction == 'up':
-        # if abs(d_y) > flash_jump_distance:
-        #     press(Key.ROPE_LIFT, 2)
-        # else:
-        #     press(Key.JUMP, 3)
-        print("step up")
-        press(Key.JUMP, 3)
-        time.sleep(0.5)
+        up(d_y)
     press(Key.FLASH_JUMP, num_presses)
     time.sleep(0.5)
 
