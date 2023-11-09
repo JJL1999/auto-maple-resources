@@ -225,10 +225,13 @@ class ShadowAssault(Command):
     to the current Layout if necessary.
     """
 
-    def __init__(self, direction, jump='False'):
+    def __init__(self, direction, jump='False', another_direction=None):
         super().__init__(locals())
         self.direction = settings.validate_arrows(direction)
         self.jump = settings.validate_boolean(jump)
+        self.another_direction = None
+        if another_direction is not None and another_direction != 'None':
+            self.another_direction = settings.validate_arrows(another_direction)
 
     def main(self):
         num_presses = 3
@@ -246,8 +249,12 @@ class ShadowAssault(Command):
         if self.direction == 'up':
             key_down(self.direction)
             time.sleep(0.05)
+        if self.another_direction is not None:
+            key_down(self.another_direction)
         press(Key.SHADOW_ASSAULT, num_presses)
         key_up(self.direction)
+        if self.another_direction is not None:
+            key_up(self.another_direction)
         if settings.record_layout:
             config.layout.add(*config.player_pos)
 
@@ -383,7 +390,7 @@ class ErdaShower(Command):
             time.sleep(0.05)
 
         if self.use_erda_foundation:
-            key_down('up')
+            # key_down('up')
             key_down('down')
             time.sleep(0.05)
 
@@ -391,7 +398,7 @@ class ErdaShower(Command):
         key_up(self.direction)
 
         if self.use_erda_foundation:
-            key_up('up')
+            # key_up('up')
             key_up('down')
         if settings.record_layout:
             config.layout.add(*config.player_pos)
