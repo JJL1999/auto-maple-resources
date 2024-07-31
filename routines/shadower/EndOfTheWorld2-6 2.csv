@@ -1,0 +1,56 @@
+*, x=0.648, y=0.484, frequency=1, skip=False, adjust=True, period=36
+    ShadowVeil, direction=right
+    Wait, duration=0.6
+    ShadowAssault, direction=left, jump=False, another_direction=None
+    Wait, duration=0.15
+    ShadowAssault, direction=up, jump=False, another_direction=left
+    Wait, duration=0.15
+    Walk, direction=right, duration=0.1
+    Wait, duration=0.6
+    Walk, direction=left, duration=0.3
+    MoveAndAdjust, x=0.270, y=0.289, max_steps=15
+    Wait, duration=0.8
+    FlashJumpWithCruelStabRandomDirection, direction=down, jump_times=1
+    Wait, duration=0.3
+    DarkFlare, direction=left
+    Wait, duration=0.15
+    TrickBlade, direction=right
+    Wait, duration=0.6
+    FlashJumpWithCruelStabRandomDirection, direction=right, jump_times=3
+    Wait, duration=0.3
+    MoveAndAdjust, x=0.667, y=0.484, max_steps=15
+    ShadowAssault, direction=up, jump=False, another_direction=right
+    Wait, duration=0.15
+    Walk, direction=left, duration=0.2
+    MoveAndAdjust, x=0.742, y=0.270, max_steps=15
+    Wait, duration=0.8
+    FlashJumpWithCruelStabRandomDirection, direction=down, jump_times=1
+    Wait, duration=0.15
+    ErdaShower, direction=right, jump=False, use_erda_foundation=False
+    Wait, duration=0.3
+    SuddenRaid
+    MesoExplosion
+    Wait, duration=0.4
+    FlashJumpWithCruelStabRandomDirection, direction=down, jump_times=1
+    Wait, duration=0.15
+    Walk, direction=right, duration=0.3
+    Wait, duration=0.4
+    FlashJumpWithCruelStabRandomDirection, direction=left, jump_times=1
+    Wait, duration=0.15
+    FlashJumpWithCruelStabRandomDirection, direction=left, jump_times=1
+    Wait, duration=0.15
+    Walk, direction=left, duration=0.7
+    MoveAndAdjust, x=0.190, y=0.484, max_steps=15
+    Wait, duration=0.2
+    FlashJumpWithCruelStabRandomDirection, direction=right, jump_times=1
+    Wait, duration=0.15
+    FlashJumpWithCruelStabRandomDirection, direction=right, jump_times=1
+    Wait, duration=0.15
+*, x=0.648, y=0.484, frequency=1, skip=False, adjust=True, period=0
+    CruelStab, direction=right, attacks=2, repetitions=1
+    MesoExplosion
+    Wait, duration=0.1
+*, x=0.648, y=0.484, frequency=1, skip=False, adjust=False, period=2
+    CruelStab, direction=left, attacks=2, repetitions=1
+    MesoExplosion
+    Wait, duration=0.1

@@ -1,0 +1,60 @@
+$, target=auto_use_wealth_potion, value=True
+$, target=change_channel_when_solving_runes_timeout, value=True
+$, target=change_channel_key, "value=,"
+$, target=rune_alert_delay, value=90
+$, target=wealth_potion_key, value=home
+*, x=0.250, y=0.323, frequency=1, skip=False, adjust=True, period=42
+    FlashJumpWithShowdownRandomDirection, direction=right, jump_times=1, low_jump=True
+    Wait, duration=0.100
+    FlashJumpWithShowdownRandomDirection, direction=right, jump_times=1, low_jump=True
+    Wait, duration=0.100
+    DarkLordsOmen, direction=left
+    Wait, duration=0.3
+    MoveAndAdjust, x=0.599, y=0.323, max_steps=15
+    Shurrikane, direction=right, jump=True
+    Wait, duration=0.5
+    RopeLift, jump=True
+    Wait, duration=0.4
+    ShadowSurge, direction=left
+    MoveAndAdjust, x=0.526, y=0.083, max_steps=15
+    DarkFlare
+    Wait, duration=0.2000
+    FlashJumpWithShowdownRandomDirection, direction=down, jump_times=1
+    Wait, duration=0.200
+    FlashJumpWithShowdownRandomDirection, direction=left, jump_times=2
+    Walk, direction=left, duration=0.2
+    MoveAndAdjust, x=0.234, y=0.177, max_steps=15
+    ErdaShower, use_erda_foundation=True
+    Wait, duration=0.3
+    SuddenRaid
+    Wait, duration=0.4
+    FlashJumpWithShowdownRandomDirection, direction=down, jump_times=1
+    Wait, duration=0.200
+    FlashJumpWithShowdownRandomDirection, direction=down, jump_times=1
+    Wait, duration=0.200
+*, x=0.250, y=0.323, frequency=1, skip=False, adjust=True, period=0
+    FlashJumpWithShowdownRandomDirection, direction=right, jump_times=1, low_jump=True
+    Wait, duration=0.100
+*, x=0.417, y=0.323, frequency=1, skip=False, adjust=False, period=0
+    FlashJumpWithShowdownRandomDirection, direction=right, jump_times=1, low_jump=True
+    Wait, duration=0.100
+*, x=0.589, y=0.323, frequency=1, skip=False, adjust=False, period=0
+    FlashJumpWithShowdownRandomDirection, direction=right, jump_times=1, low_jump=True
+    Wait, duration=0.100
+*, x=0.729, y=0.323, frequency=1, skip=False, adjust=False, period=0
+    FlashJumpWithShowdownRandomDirection, direction=right, jump_times=1, low_jump=True
+    Wait, duration=0.100
+*, x=0.906, y=0.323, frequency=1, skip=False, adjust=False, period=0
+    FlashJumpWithShowdownRandomDirection, direction=left, jump_times=1, low_jump=True
+    Wait, duration=0.100
+*, x=0.729, y=0.323, frequency=1, skip=False, adjust=False, period=0
+    FlashJumpWithShowdownRandomDirection, direction=left, jump_times=1, low_jump=True
+    Wait, duration=0.100
+*, x=0.589, y=0.323, frequency=1, skip=False, adjust=False, period=0
+    FlashJumpWithShowdownRandomDirection, direction=left, jump_times=1, low_jump=True
+    Wait, duration=0.100
+*, x=0.417, y=0.323, frequency=1, skip=False, adjust=False, period=0
+    FlashJumpWithShowdownRandomDirection, direction=left, jump_times=1, low_jump=True
+    Wait, duration=0.300
+    ShowdownRandomDirection
+    Wait, duration=0.400

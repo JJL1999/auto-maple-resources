@@ -1,0 +1,58 @@
+$, target=auto_use_wealth_potion, value=True
+$, target=change_channel_when_solving_runes_timeout, value=False
+$, target=change_channel_key, "value=,"
+$, target=rune_alert_delay, value=90
+$, target=wealth_potion_key, value=home
+$, target=change_channel_step, value=1
+$, target=move_tolerance, value=0.12
+*, x=0.730, y=0.484, frequency=1, skip=False, adjust=True, period=31
+    Shurrikane, direction=left, re_trigger_time=0.1
+    Wait, duration=0.5
+    RopeLift
+    Wait, duration=0.4
+    MoveAndAdjust, x=0.742, y=0.270, max_steps=15
+    Wait, duration=2.5
+    FlashJumpWithShowdownRandomDirection, direction=down, jump_times=1
+    Wait, duration=0.4
+    ErdaShower, use_erda_foundation=True
+    Wait, duration=0.3
+    SuddenRaid
+    Wait, duration=0.4
+    FlashJumpWithShowdownRandomDirection, direction=down, jump_times=1
+    Wait, duration=0.3
+    ShadowSurge, direction=left
+    DarkLordsOmen, direction=left
+    Wait, duration=0.3
+    FlashJumpWithShowdownRandomDirection, direction=left, jump_times=2, low_jump=True
+    Wait, duration=0.15
+    MoveAndAdjust, x=0.333, y=0.484, max_steps=15
+    RopeLift
+    Wait, duration=0.4
+    Walk, direction=right, duration=0.2
+    Wait, duration=0.8
+    Walk, direction=left, duration=0.3
+    MoveAndAdjust, x=0.245, y=0.289, max_steps=15
+    Wait, duration=0.5
+    FlashJumpWithShowdownRandomDirection, direction=down, jump_times=1
+    Wait, duration=0.3
+    MoveAndAdjust, x=0.321, y=0.371, max_steps=15
+    DarkFlare
+    Wait, duration=0.2000
+    DeathStar
+    Wait, duration=0.4
+    ShadowSurge, direction=left
+    FlashJumpWithShowdownRandomDirection, direction=down, jump_times=1
+    Wait, duration=0.3
+    Walk, direction=left, duration=0.7
+    MoveAndAdjust, x=0.190, y=0.484, max_steps=15
+    Wait, duration=0.2
+    FlashJumpWithShowdownRandomDirection, direction=right, jump_times=2, low_jump=True
+    Wait, duration=0.15
+    FlashJumpWithShowdownRandomDirection, direction=right, jump_times=2, low_jump=True
+    Wait, duration=0.15
+*, x=0.730, y=0.484, frequency=1, skip=False, adjust=True, period=0
+    Showdown, direction=right
+    Wait, duration=0.15
+*, x=0.730, y=0.484, frequency=1, skip=False, adjust=False, period=2
+    Showdown, direction=left
+    Wait, duration=0.15

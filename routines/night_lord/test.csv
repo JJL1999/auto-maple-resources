@@ -1,0 +1,39 @@
+$, target=auto_use_wealth_potion, value=True
+$, target=change_channel_when_solving_runes_timeout, value=True
+$, target=change_channel_key, "value=,"
+$, target=rune_alert_delay, value=1
+$, target=wealth_potion_key, value=home
+*, x=0.297, y=0.258, frequency=1, skip=False, adjust=True, period=0
+    FlashJumpWithShowdownRandomDirection, direction=right, jump_times=1
+    Wait, duration=0.200
+    DarkLordsOmen, direction=left
+    Wait, duration=0.3
+    FlashJumpWithShowdownRandomDirection, direction=right, jump_times=1
+    Wait, duration=0.200
+    MoveAndAdjust, x=0.597, y=0.258, max_steps=15
+    ShadowLeap
+    Wait, duration=0.3
+    Shurrikane, direction=right, jump=True
+    Wait, duration=0.5
+    ShadowLeap
+    MoveAndAdjust, x=0.597, y=0.136, max_steps=15
+    ErdaShower, direction=right, jump=False, use_erda_foundation=False
+    Wait, duration=0.3
+    SuddenRaid
+    Wait, duration=0.4
+    ShadowSurge, direction=left
+    Walk, direction=left, duration=0.2
+    MoveAndAdjust, x=0.492, y=0.136, max_steps=15
+    FlashJumpWithShowdownRandomDirection, direction=left, jump_times=2
+    Wait, duration=0.3
+    MoveAndAdjust, x=0.242, y=0.136, max_steps=15
+    DarkFlare, direction=right
+    Wait, duration=0.2000
+    DeathStar
+    Wait, duration=0.4
+    FlashJumpWithShowdownRandomDirection, direction=down, jump_times=1
+    Wait, duration=0.200
+    FlashJumpWithShowdownRandomDirection, direction=down, jump_times=1
+    Wait, duration=0.200
+    ShadowSurge, direction=right
+    Walk, direction=right, duration=0.2

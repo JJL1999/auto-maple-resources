@@ -63,7 +63,7 @@ def step(direction, target):
 
     num_presses = 2
     if direction == 'up' or direction == 'down':
-        num_presses = 1
+        num_presses = 0
     if config.stage_fright and direction != 'up' and utils.bernoulli(0.75):
         time.sleep(utils.rand_float(0.1, 0.3))
     d_y = target[1] - config.player_pos[1]
@@ -71,13 +71,7 @@ def step(direction, target):
         press(Key.JUMP, 3)
         time.sleep(1)
     elif direction == 'up':
-        # if abs(d_y) > flash_jump_distance:
-        #     press(Key.ROPE_LIFT, 2)
-        # else:
-        #     press(Key.JUMP, 3)
-        print("step up")
-        press(Key.JUMP, 3)
-        time.sleep(0.5)
+        up(d_y)
     press(Key.FLASH_JUMP, num_presses)
     time.sleep(0.5)
 
@@ -267,20 +261,6 @@ class CruelStab(Command):
         self.direction = settings.validate_horizontal_arrows(direction)
         self.attacks = int(attacks)
         self.repetitions = int(repetitions)
-
-    def main(self):
-        time.sleep(0.05)
-        key_down(self.direction)
-        time.sleep(0.05)
-        if config.stage_fright and utils.bernoulli(0.7):
-            time.sleep(utils.rand_float(0.1, 0.3))
-        for _ in range(self.repetitions):
-            press(Key.CRUEL_STAB, self.attacks, up_time=0.05)
-        key_up(self.direction)
-        if self.attacks > 2:
-            time.sleep(0.3)
-        else:
-            time.sleep(0.2)
 
     def main(self):
         time.sleep(0.05)

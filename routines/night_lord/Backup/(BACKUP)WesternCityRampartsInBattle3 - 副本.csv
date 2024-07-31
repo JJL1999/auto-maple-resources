@@ -1,0 +1,5 @@
+*, x=0.297, y=0.258, frequency=1, skip=False, adjust=False, period=36
+    ShadowLeap
+    Wait, duration=0.3
+    Shurrikane, direction=right, jump=True
+    Wait, duration=0.5

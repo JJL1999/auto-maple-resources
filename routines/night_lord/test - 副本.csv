@@ -1,0 +1,6 @@
+*, x=0.283, y=0.287, frequency=1, skip=False, adjust=False, period=0
+    FlashJumpWithShowdownRandomDirection, direction=right, jump_times=1, low_jump=True
+    Wait, duration=0.1
+*, x=0.483, y=0.299, frequency=1, skip=False, adjust=False, period=0
+    FlashJumpWithShowdownRandomDirection, direction=left, jump_times=1, low_jump=True
+    Wait, duration=0.1

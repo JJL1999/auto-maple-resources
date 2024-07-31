@@ -1,0 +1,37 @@
+*, x=0.648, y=0.484, frequency=1, skip=False, adjust=True, period=43
+    ShadowVeil, direction=right
+    Wait, duration=0.6
+    ShadowAssault, direction=left, jump=False, another_direction=None
+    Wait, duration=0.15
+    ShadowAssault, direction=up, jump=False, another_direction=left
+    Wait, duration=0.15
+    MoveAndAdjust, x=0.270, y=0.289, max_steps=15
+    FlashJumpWithCruelStabRandomDirection, direction=down, jump_times=1
+    Wait, duration=0.15
+    DarkFlare, direction=right
+    Wait, duration=0.15
+    TrickBlade, direction=right
+    Wait, duration=0.15
+    FlashJumpWithCruelStabRandomDirection, direction=down, jump_times=1
+    Wait, duration=0.6
+    FlashJumpWithCruelStabRandomDirection, direction=right, jump_times=2
+    Wait, duration=0.2
+    Move, x=0.547, y=0.484, max_steps=15
+    ShadowAssault, direction=up, jump=False, another_direction=right
+    Wait, duration=0.15
+    MoveAndAdjust, x=0.742, y=0.270, max_steps=15
+    Wait, duration=0.15
+    FlashJumpWithCruelStabRandomDirection, direction=down, jump_times=1
+    Wait, duration=0.15
+    ErdaShower, direction=left, jump=False, use_erda_foundation=False
+    Wait, duration=0.3
+    SuddenRaid
+    MesoExplosion
+    Wait, duration=0.3
+    FlashJumpWithCruelStabRandomDirection, direction=down, jump_times=1
+    Wait, duration=0.15
+    Walk, direction=left, duration=0.4
+*, x=0.648, y=0.484, frequency=1, skip=False, adjust=True, period=0
+    CruelStabRandomDirection
+    MesoExplosion
+    Wait, duration=0.1

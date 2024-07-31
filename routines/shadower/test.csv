@@ -1,0 +1,5 @@
+*, x=0.352, y=0.484, frequency=1, skip=False, adjust=False, period=0
+    ShadowAssault, direction=up, jump=False, another_direction=left
+    Wait, duration=0.3
+    ShadowAssault, direction=down, jump=False, another_direction=right
+    TrickBlade, direction=right

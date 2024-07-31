@@ -1,0 +1,54 @@
+*, x=0.350, y=0.484, frequency=1, skip=False, adjust=True, period=38
+    FlashJumpWithCruelStabRandomDirection, direction=right, jump_times=1
+    Wait, duration=0.15
+    ShadowVeil, direction=right
+    Wait, duration=0.6
+    ShadowAssault, direction=left, jump=False, another_direction=None
+    Wait, duration=0.15
+    ShadowAssault, direction=up, jump=False, another_direction=left
+    Wait, duration=0.15
+    MoveAndAdjust, x=0.270, y=0.289, max_steps=15
+    Wait, duration=1.4
+    FlashJumpWithCruelStabRandomDirection, direction=down, jump_times=1
+    Wait, duration=0.15
+    DarkFlare, direction=left
+    Wait, duration=0.15
+    TrickBlade, direction=right
+    Wait, duration=0.6
+    FlashJumpWithCruelStabRandomDirection, direction=right, jump_times=3
+    Wait, duration=0.3
+    MoveAndAdjust, x=0.667, y=0.484, max_steps=15
+    ShadowAssault, direction=up, jump=False, another_direction=right
+    Wait, duration=0.15
+    Walk, direction=left, duration=0.2
+    MoveAndAdjust, x=0.742, y=0.270, max_steps=15
+    Wait, duration=0.8
+    FlashJumpWithCruelStabRandomDirection, direction=down, jump_times=1
+    Wait, duration=0.15
+    ErdaShower, direction=right, jump=False, use_erda_foundation=True
+    Wait, duration=0.3
+    SuddenRaid
+    MesoExplosion
+    Wait, duration=0.4
+    FlashJumpWithCruelStabRandomDirection, direction=down, jump_times=1
+    Wait, duration=0.15
+    Wait, duration=0.6
+    FlashJumpWithCruelStabRandomDirection, direction=left, jump_times=1
+    Wait, duration=0.15
+    FlashJumpWithCruelStabRandomDirection, direction=left, jump_times=1
+    Wait, duration=0.15
+    MoveAndAdjust, x=0.258, y=0.484, max_steps=15
+    Wait, duration=0.8
+    Walk, direction=right, duration=0.3
+*, x=0.350, y=0.484, frequency=1, skip=False, adjust=True, period=0
+    FlashJumpWithCruelStabRandomDirection, direction=right, jump_times=1
+    Wait, duration=0.15
+*, x=0.579, y=0.484, frequency=1, skip=False, adjust=False, period=0
+    FlashJumpWithCruelStabRandomDirection, direction=right, jump_times=1
+    Wait, duration=0.15
+*, x=0.799, y=0.484, frequency=1, skip=False, adjust=False, period=0
+    FlashJumpWithCruelStabRandomDirection, direction=left, jump_times=1
+    Wait, duration=0.15
+*, x=0.579, y=0.484, frequency=1, skip=False, adjust=False, period=0
+    FlashJumpWithCruelStabRandomDirection, direction=left, jump_times=1
+    Wait, duration=0.15
