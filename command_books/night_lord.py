@@ -50,7 +50,7 @@ def up(dy):
     print("============= up")
     if abs(dy) > flash_jump_distance:
         jump = 'True' if abs(dy) > 1.6 * settings.move_tolerance else 'False'
-        print(f"dy={dy}, 1.6*move_tolerance={1.6*settings.move_tolerance}, jump={jump}")
+        print(f"dy={dy}, 1.6*move_tolerance={1.6 * settings.move_tolerance}, jump={jump}")
         RopeLift(jump).main()
     else:
         FlashJump('up', 3).main()
@@ -267,8 +267,8 @@ class DarkFlare(Command):
 
     def __init__(self, direction=None):
         super().__init__(locals())
-        if direction is None:
-            self.direction = direction
+        if direction is None or str(direction).lower() == 'none':
+            self.direction = None
         else:
             self.direction = settings.validate_horizontal_arrows(direction)
 
@@ -442,7 +442,7 @@ class FlashJumpWithShowdownRandomDirection(Command):
 
     def main(self):
         key_down(self.direction)
-        time.sleep(0.1)
+        time.sleep(utils.random_time(0.1))
         delay = 0.01
         if not self.low_jump:
             jump_num = 1
@@ -462,4 +462,4 @@ class FlashJumpWithShowdownRandomDirection(Command):
             time.sleep(0.2)
         press(Key.SHOWDOWN, 2, up_time=delay)
         key_up(self.direction)
-        time.sleep(0.2 + self.jump_times * 0.1)
+        time.sleep(utils.random_time(0.2 + self.jump_times * 0.1))
