@@ -1,0 +1,139 @@
+$, target=whether_refill_familiar_gauge, value=True
+$, target=familiar_ui_key, "value=;"
+$, target=familiar_essence_key, value=.
+$, target=refill_familiar_gauge_threshold, value=25
+$, target=auto_use_wealth_potion, value=True
+$, target=whether_reconnect_when_game_disconnected, value=False
+$, target=whether_proactively_reconnect_in_a_specified_period, value=True
+$, target=proactively_reconnect_period, value=4200
+$, target=switch_skills_to_open_when_reconnect_game, "value=0, 9, -, `"
+$, target=starter_for_game_when_reconnect, value=SteamStarter
+$, target=change_channel_key, "value=,"
+$, target=rune_alert_delay, value=75
+$, target=wealth_potion_key, value=home
+@, label=p1
+*, x=0.639, y=0.069, frequency=1, skip=False, adjust=True, period=32
+    FlashJumpWithQuintupleStarRandomDirection, direction=left, jump_times=1, low_jump=True
+    WaitInFloating, duration=0.100
+    FlashJumpWithQuintupleStarRandomDirection, direction=left, jump_times=1, low_jump=True
+    WaitInFloating, duration=0.200
+    MoveAndAdjust, x=0.378, y=0.082, max_steps=15
+    WaitInFloating, duration=0.1
+    ShadowDodge, direction=left
+    WaitInFloating, duration=0.15
+    GreaterDarkServant, direction=down
+    WaitInFloating, duration=0.4
+    FlashJumpWithQuintupleStarRandomDirection, direction=left, jump_times=1, low_jump=True
+    WaitInFloating, duration=0.1
+    FlashJumpWithQuintupleStarRandomDirection, direction=down, jump_times=1, low_jump=False
+    WaitInFloating, duration=0.2
+    WaitInFloating, duration=0.1
+    ShadowDodge, direction=right
+    WaitInFloating, duration=0.15
+    MoveAndAdjust, x=0.232, y=0.167, max_steps=15
+    FlashJumpWithQuintupleStarRandomDirection, direction=down, jump_times=1, low_jump=False
+    WaitInFloating, duration=0.2
+    MoveAndAdjust, x=0.232, y=0.240, max_steps=15
+    SolJanus, direction=None
+    WaitInFloating, duration=0.2
+    MoveAndAdjust, x=0.245, y=0.240, max_steps=15
+    FlashJumpWithQuintupleStarRandomDirection, direction=right, jump_times=1, low_jump=True
+    WaitInFloating, duration=0.100
+    MoveAndAdjust, x=0.382, y=0.240, max_steps=15
+    SolJanus, direction=right
+    WaitInFloating, duration=0.2
+    WaitInFloating, duration=0.1
+    ShadowDodge, direction=left
+    WaitInFloating, duration=0.15
+    FlashJumpWithQuintupleStarRandomDirection, direction=right, jump_times=1, low_jump=True
+    WaitInFloating, duration=0.100
+    MoveAndAdjust, x=0.571, y=0.240, max_steps=15
+    SolJanus, direction=None
+    WaitInFloating, duration=0.2
+    FlashJumpWithQuintupleStarRandomDirection, direction=right, jump_times=1, low_jump=True
+    WaitInFloating, duration=0.100
+    MoveAndAdjust, x=0.712, y=0.240, max_steps=15
+    ErdaShower, direction=right, jump=False, use_erda_foundation=False
+    WaitInFloating, duration=0.2
+    ShadowBite, jump=False
+    WaitInFloating, duration=0.2
+    FlashJumpWithQuintupleStarRandomDirection, direction=down, jump_times=1, low_jump=False
+    WaitInFloating, duration=0.2
+    MoveAndAdjust, x=0.712, y=0.309, max_steps=15
+    FlashJumpWithQuintupleStarRandomDirection, direction=left, jump_times=1, low_jump=True
+    WaitInFloating, duration=0.100
+    FlashJumpWithQuintupleStarRandomDirection, direction=left, jump_times=1, low_jump=True
+    WaitInFloating, duration=0.100
+    FlashJumpWithQuintupleStarRandomDirection, direction=left, jump_times=1, low_jump=True
+    WaitInFloating, duration=0.100
+    FlashJumpWithQuintupleStarRandomDirection, direction=left, jump_times=1, low_jump=True
+    WaitInFloating, duration=0.100
+    MoveAndAdjust, x=0.227, y=0.309, max_steps=15
+    WaitInFloating, duration=0.3
+    RopeLift, jump=True
+    UpJumpAndFlashJumpWithQuintupleStarRandomDirection, direction=right
+    WaitInFloating, duration=0.2
+    MoveAndAdjust, x=0.391, y=0.082, max_steps=15
+    FlashJumpWithQuintupleStarRandomDirection, direction=right, jump_times=1, low_jump=True
+    WaitInFloating, duration=0.100
+    FlashJumpWithQuintupleStarRandomDirection, direction=right, jump_times=1, low_jump=True
+    WaitInFloating, duration=0.100
+>R, labels=right1:right2
+@, label=right1
+*, x=0.639, y=0.069, frequency=1, skip=False, adjust=True, period=0
+    DarkOmen, jump=False, direction=None
+    Wait, duration=0.2
+    FlashJumpWithQuintupleStarRandomDirection, direction=left, jump_times=1, low_jump=True
+    WaitInFloating, duration=0.100
+*, x=0.511, y=0.069, frequency=1, skip=False, adjust=False, period=0
+    FlashJumpWithQuintupleStarRandomDirection, direction=left, jump_times=1, low_jump=True
+    WaitInFloating, duration=0.150
+    FlashJumpWithQuintupleStarRandomDirection, direction=left, jump_times=0, low_jump=True
+    WaitInFloating, duration=0.200
+    WalkLeftAndRightInPlace, duration=0.8, floating=0.3
+    WaitInFloating, duration=0.4
+>R, labels=left1:left2
+@, label=left1
+*, x=0.365, y=0.082, frequency=1, skip=False, adjust=True, period=0
+    QuintupleStarDirection, direction=left
+    WaitInFloating, duration=0.300
+    FlashJumpWithQuintupleStarRandomDirection, direction=right, jump_times=2, low_jump=True
+    WaitInFloating, duration=0.050
+*, x=0.511, y=0.069, frequency=1, skip=False, adjust=False, period=0
+    FlashJumpWithQuintupleStarRandomDirection, direction=right, jump_times=1, low_jump=True
+    WaitInFloating, duration=0.100
+    QuintupleStarDirection, direction=right
+    WaitInFloating, duration=0.300
+    WalkLeftAndRightInPlace, duration=0.8, floating=0.3
+    WaitInFloating, duration=0.4
+>R, labels=p1
+@, label=right2
+*, x=0.609, y=0.069, frequency=1, skip=False, adjust=True, period=0
+    QuintupleStarDirection, direction=right
+    WaitInFloating, duration=0.300
+    FlashJumpWithQuintupleStarRandomDirection, direction=left, jump_times=1, low_jump=False, reverse_first_jump=True
+    WaitInFloating, duration=0.100
+*, x=0.549, y=0.069, frequency=1, skip=False, adjust=False, period=0
+    FlashJumpWithQuintupleStarRandomDirection, direction=left, jump_times=2, low_jump=True
+    WaitInFloating, duration=0.150
+    FlashJumpWithQuintupleStarRandomDirection, direction=left, jump_times=0, low_jump=True
+    WaitInFloating, duration=0.200
+    WalkLeftAndRightInPlace, duration=0.8, floating=0.3
+    WaitInFloating, duration=0.4
+>R, labels=left1:left2
+@, label=left2
+*, x=0.330, y=0.082, frequency=1, skip=False, adjust=True, period=0
+    QuintupleStarDirection, direction=left
+    WaitInFloating, duration=0.1
+    ShadowDodge, direction=left
+    WaitInFloating, duration=0.15
+    FlashJumpWithQuintupleStarRandomDirection, direction=right, jump_times=1, low_jump=True
+    WaitInFloating, duration=0.100
+*, x=0.502, y=0.069, frequency=1, skip=False, adjust=False, period=0
+    FlashJumpWithQuintupleStarRandomDirection, direction=right, jump_times=1, low_jump=True
+    WaitInFloating, duration=0.100
+    QuintupleStarDirection, direction=right
+    WaitInFloating, duration=0.200
+    WalkLeftAndRightInPlace, duration=0.8, floating=0.3
+    WaitInFloating, duration=0.4
+>R, labels=p1

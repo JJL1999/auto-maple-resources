@@ -4,6 +4,7 @@ import math
 import time
 
 from src.common import config, settings, utils
+from src.common.utils import human_like
 from src.common.vkeys import press, key_down, key_up
 from src.routine.components import Command
 
@@ -34,6 +35,8 @@ class Key:
     DARK_OMEN = 's'
     SHADOW_DODGE = 'f'
     RAPID_THROW = 'e'
+
+    # Commons
     ERDA_SHOWER = 't'
     SOL_JANUS = 'i'
 
@@ -41,14 +44,14 @@ class Key:
 #########################
 #       Commands        #
 #########################
-flash_jump_distance = 0.8 * settings.move_tolerance
+flash_jump_distance = 1.3 * settings.move_tolerance
 
 
 def up(dy):
     if abs(dy) > flash_jump_distance:
-        jump = 'True' if abs(dy) > 1.6 * settings.move_tolerance else 'False'
-        # print(f"dy={dy}, 1.6*move_tolerance={1.6 * settings.move_tolerance}, jump={jump}")
-        RopeLift(jump).main()
+        jump = 'True' if abs(dy) > 1.4 * settings.move_tolerance else 'False'
+        print(f"dy={dy}, 1.6*move_tolerance={1.6 * settings.move_tolerance}, jump={jump}")
+        RopeLift(jump=jump).main()
     else:
         FlashJump('up', 2).main()
 
@@ -67,7 +70,7 @@ def step(direction, target):
     d_y = target[1] - config.player_pos[1]
     if direction == 'down':
         press(Key.JUMP, 3)
-        time.sleep(1)
+        time.sleep(0.5)
     elif direction == 'up':
         up(d_y)
     press(Key.JUMP, num_presses)
@@ -77,19 +80,23 @@ def step(direction, target):
 class Adjust(Command):
     """Fine-tunes player position using small movements."""
 
-    def __init__(self, x, y, max_steps=5):
+    def get_tolerance(self):
+        return settings.adjust_tolerance if self.custom_tolerance is None else float(self.custom_tolerance)
+
+    def __init__(self, x, y, max_steps=5, custom_tolerance=None):
         super().__init__(locals())
         self.target = (float(x), float(y))
         self.max_steps = settings.validate_positive_int(max_steps)
+        self.custom_tolerance = settings.validate_float(custom_tolerance, nullable=True)
 
     def main(self):
         counter = self.max_steps
         toggle = True
         error = utils.distance(config.player_pos, self.target)
-        while config.enabled and counter > 0 and error > settings.adjust_tolerance:
+        while config.enabled and counter > 0 and error > self.get_tolerance():
             if toggle:
                 d_x = self.target[0] - config.player_pos[0]
-                threshold = settings.adjust_tolerance / math.sqrt(2)
+                threshold = self.get_tolerance() / math.sqrt(2)
                 if abs(d_x) > threshold:
                     walk_counter = 0
                     if d_x < 0:
@@ -109,7 +116,7 @@ class Adjust(Command):
                     counter -= 1
             else:
                 d_y = self.target[1] - config.player_pos[1]
-                if abs(d_y) > settings.adjust_tolerance / math.sqrt(2):
+                if abs(d_y) > self.get_tolerance() / math.sqrt(2):
                     if d_y < 0:
                         up(d_y)
                     else:
@@ -170,8 +177,12 @@ class FlashJump(Command):
 
     def main(self):
         time.sleep(0.1)
-        key_down(self.direction)
-        press(Key.JUMP, 1)
+        if self.direction != 'up':
+            key_down(self.direction)
+            press(Key.JUMP, 1)
+        else:
+            press(Key.JUMP, 1)
+            key_down(self.direction)
         press(Key.JUMP, self.jump_times)
         key_up(self.direction)
         time.sleep(0.5)
@@ -238,7 +249,20 @@ class QuintupleStar(Command):
 class QuintupleStarDirection(Command):
     """Uses 'CruelStab' once."""
 
+    def __init__(self, direction=None, jump='False'):
+        super().__init__(locals())
+        if direction is None or str(direction).lower() == 'none':
+            self.direction = None
+        else:
+            self.direction = settings.validate_horizontal_arrows(direction)
+        self.jump = settings.validate_boolean(jump)
+
     def main(self):
+        if self.direction:
+            press(self.direction, 1, down_time=0.1, up_time=0.05)
+
+        if self.jump:
+            press(Key.JUMP, 1, down_time=0.1, up_time=0.15)
         press(Key.QUINTUPLE_STAR, 1, up_time=0.05)
 
 
@@ -253,12 +277,15 @@ class GreaterDarkServant(Command):
         if direction is None or str(direction).lower() == 'none':
             self.direction = None
         else:
-            self.direction = settings.validate_horizontal_arrows(direction)
+            self.direction = settings.validate_arrows(direction)
 
     def main(self):
         if self.direction:
-            press(self.direction, 1, down_time=0.1, up_time=0.05)
+            key_down(self.direction)
+            time.sleep(0.1)
         press(Key.GREATER_DARK_SERVANT, 2)
+        if self.direction:
+            key_up(self.direction)
 
 
 class SolJanus(Command):
@@ -269,8 +296,8 @@ class SolJanus(Command):
 
     def __init__(self, direction=None):
         super().__init__(locals())
-        if direction is None:
-            self.direction = direction
+        if direction is None or str(direction).lower() == 'none':
+            self.direction = None
         else:
             self.direction = settings.validate_horizontal_arrows(direction)
 
@@ -288,13 +315,15 @@ class ShadowDodge(Command):
 
     def __init__(self, direction=None):
         super().__init__(locals())
-        self.direction = None
-        if direction is not None:
+        if direction is None or str(direction).lower() == 'none':
+            self.direction = None
+        else:
             self.direction = settings.validate_horizontal_arrows(direction)
 
     def main(self):
         if self.direction:
             key_down(self.direction)
+            time.sleep(0.08)
         press(Key.SHADOW_DODGE, 1)
         if self.direction:
             key_up(self.direction)
@@ -308,8 +337,8 @@ class DarkOmen(Command):
 
     def __init__(self, jump='False', direction=None):
         super().__init__(locals())
-        if direction is None:
-            self.direction = direction
+        if direction is None or str(direction).lower() == 'none':
+            self.direction = None
         else:
             self.direction = settings.validate_horizontal_arrows(direction)
         self.jump = settings.validate_boolean(jump)
@@ -365,19 +394,27 @@ class ErdaShower(Command):
             config.layout.add(*config.player_pos)
 
 
-class ShadowBite(Command, jump='False'):
+class ShadowBite(Command):
 
-    def __init__(self, jump='False'):
+    def __init__(self, jump='False', direction=None):
         super().__init__(locals())
+        if direction is None or str(direction).lower() == 'none':
+            self.direction = None
+        else:
+            self.direction = direction
         self.jump = settings.validate_boolean(jump)
 
     def main(self):
+        if self.direction:
+            key_down(self.direction)
         if self.jump:
             press(Key.JUMP, 1, down_time=0.1, up_time=0.15)
         press(Key.SHADOW_BITE, 3)
+        if self.direction:
+            key_up(self.direction)
 
 
-class RapidThrow(Command, jump='False'):
+class RapidThrow(Command):
     """Uses 'True Arachnid Reflection' once."""
 
     def __init__(self, jump='False'):
@@ -393,32 +430,76 @@ class RapidThrow(Command, jump='False'):
 class FlashJumpWithQuintupleStarRandomDirection(Command):
     """Performs a flash jump in the given direction."""
 
-    def __init__(self, direction, jump_times=1, low_jump='False'):
+    def __init__(self, direction, jump_times=1, low_jump='False', reverse_first_jump='False', release_direction='True'):
         super().__init__(locals())
         self.direction = settings.validate_arrows(direction)
         self.jump_times = settings.validate_non_negative_int(jump_times)
         self.low_jump = settings.validate_boolean(low_jump)
+        self.reverse_first_jump = settings.validate_boolean(reverse_first_jump)
+        self.release_direction = settings.validate_boolean(release_direction)
 
     def main(self):
-        key_down(self.direction)
-        time.sleep(utils.random_time(0.1))
+        reversed_direction = 'left' if self.direction == 'right' else 'right'
+        reverse_first_jump_enabled = self.reverse_first_jump and self.direction in ['left', 'right']
+        if reverse_first_jump_enabled:
+            key_down(reversed_direction)
+        else:
+            key_down(self.direction)
+
+        def reverse_first_jump_func():
+            if reverse_first_jump_enabled:
+                key_down(self.direction)
+                utils.sleep_in_floating(0.05)
+                key_up(reversed_direction)
+                utils.sleep_in_floating(0.05)
+
+        time.sleep(utils.random_in_floating(0.1))
+        human_like()
         delay = 0.01
         if not self.low_jump:
             jump_num = 1
             if self.direction == 'down':
                 jump_num += 1
             press(Key.JUMP, jump_num)
+            reverse_first_jump_func()
+
             if self.direction == 'up':
                 press(Key.JUMP, 1, last_up_time=0.4)
             else:
                 press(Key.JUMP, self.jump_times, last_up_time=delay)
         else:
-            press(Key.JUMP, down_time=0.05, up_time=0.05)
+            key_down(Key.JUMP)
+            utils.sleep_in_floating(0.05)
+            reverse_first_jump_func()
             press(Key.FLASH_JUMP, self.jump_times, last_up_time=delay)
-        time.sleep(0.1)
-        if self.use_shadow_leap:
-            press(Key.JUMP, 1)
-            time.sleep(0.2)
+            key_up(Key.JUMP)
+
+        utils.sleep_in_floating(0.1)
+        press(Key.QUINTUPLE_STAR, 2, up_time=delay)
+        if self.release_direction:
+            key_up(self.direction)
+        time.sleep(utils.random_in_floating(0.2 + self.jump_times * 0.1))
+
+
+class UpJumpAndFlashJumpWithQuintupleStarRandomDirection(Command):
+    """Performs a flash jump in the given direction."""
+
+    def __init__(self, direction):
+        super().__init__(locals())
+        self.direction = settings.validate_horizontal_arrows(direction)
+
+    def main(self):
+        # up jump
+        key_down(self.direction)
+        key_down('up')
+        press(Key.JUMP, 3)
+        key_up('up')
+        utils.random_in_floating(0.3)
+
+        # then horizontally jump
+        time.sleep(utils.random_in_floating(0.1))
+        delay = 0.01
+        press(Key.JUMP, 2, last_up_time=delay)
+        utils.sleep_in_floating(0.1)
         press(Key.QUINTUPLE_STAR, 2, up_time=delay)
         key_up(self.direction)
-        time.sleep(utils.random_time(0.2 + self.jump_times * 0.1))

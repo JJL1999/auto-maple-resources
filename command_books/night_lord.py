@@ -4,6 +4,7 @@ import math
 import time
 
 from src.common import config, settings, utils
+from src.common.utils import human_like
 from src.common.vkeys import press, key_down, key_up
 from src.routine.components import Command
 
@@ -47,13 +48,12 @@ flash_jump_distance = 0.8 * settings.move_tolerance
 
 
 def up(dy):
-    print("============= up")
     if abs(dy) > flash_jump_distance:
         jump = 'True' if abs(dy) > 1.6 * settings.move_tolerance else 'False'
         print(f"dy={dy}, 1.6*move_tolerance={1.6 * settings.move_tolerance}, jump={jump}")
-        RopeLift(jump).main()
+        RopeLift(jump=jump).main()
     else:
-        FlashJump('up', 3).main()
+        FlashJump('up', 2).main()
 
 
 def step(direction, target):
@@ -80,19 +80,23 @@ def step(direction, target):
 class Adjust(Command):
     """Fine-tunes player position using small movements."""
 
-    def __init__(self, x, y, max_steps=5):
+    def get_tolerance(self):
+        return settings.adjust_tolerance if self.custom_tolerance is None else float(self.custom_tolerance)
+
+    def __init__(self, x, y, max_steps=5, custom_tolerance=None):
         super().__init__(locals())
         self.target = (float(x), float(y))
         self.max_steps = settings.validate_positive_int(max_steps)
+        self.custom_tolerance = settings.validate_float(custom_tolerance, nullable=True)
 
     def main(self):
         counter = self.max_steps
         toggle = True
         error = utils.distance(config.player_pos, self.target)
-        while config.enabled and counter > 0 and error > settings.adjust_tolerance:
+        while config.enabled and counter > 0 and error > self.get_tolerance():
             if toggle:
                 d_x = self.target[0] - config.player_pos[0]
-                threshold = settings.adjust_tolerance / math.sqrt(2)
+                threshold = self.get_tolerance() / math.sqrt(2)
                 if abs(d_x) > threshold:
                     walk_counter = 0
                     if d_x < 0:
@@ -112,7 +116,7 @@ class Adjust(Command):
                     counter -= 1
             else:
                 d_y = self.target[1] - config.player_pos[1]
-                if abs(d_y) > settings.adjust_tolerance / math.sqrt(2):
+                if abs(d_y) > self.get_tolerance() / math.sqrt(2):
                     if d_y < 0:
                         up(d_y)
                     else:
@@ -442,7 +446,8 @@ class FlashJumpWithShowdownRandomDirection(Command):
 
     def main(self):
         key_down(self.direction)
-        time.sleep(utils.random_time(0.1))
+        time.sleep(utils.random_in_floating(0.1))
+        human_like()
         delay = 0.01
         if not self.low_jump:
             jump_num = 1
@@ -462,4 +467,4 @@ class FlashJumpWithShowdownRandomDirection(Command):
             time.sleep(0.2)
         press(Key.SHOWDOWN, 2, up_time=delay)
         key_up(self.direction)
-        time.sleep(utils.random_time(0.2 + self.jump_times * 0.1))
+        time.sleep(utils.random_in_floating(0.2 + self.jump_times * 0.1))

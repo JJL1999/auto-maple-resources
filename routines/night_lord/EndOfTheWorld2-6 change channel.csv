@@ -1,5 +1,5 @@
 $, target=auto_use_wealth_potion, value=True
-$, target=change_channel_when_solving_runes_timeout, value=True
+$, target=whether_change_channel_when_solving_runes_timeout, value=True
 $, target=change_channel_key, "value=,"
 $, target=rune_alert_delay, value=90
 $, target=wealth_potion_key, value=home

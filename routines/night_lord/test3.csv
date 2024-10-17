@@ -1,0 +1,14 @@
+*, x=0.512, y=0.102, frequency=1, skip=False, adjust=True, period=58
+    DarkFlare
+*, x=0.355, y=0.217, frequency=1, skip=False, adjust=True, period=0
+    ShowdownRandomDirection
+*, x=0.367, y=0.331, frequency=1, skip=False, adjust=True, period=0
+    ShowdownRandomDirection
+*, x=0.325, y=0.446, frequency=1, skip=False, adjust=True, period=0
+    ShowdownRandomDirection
+*, x=0.620, y=0.217, frequency=1, skip=False, adjust=True, period=0
+    ShowdownRandomDirection
+*, x=0.620, y=0.331, frequency=1, skip=False, adjust=True, period=0
+    ShowdownRandomDirection
+*, x=0.596, y=0.446, frequency=1, skip=False, adjust=True, period=0
+    ShowdownRandomDirection

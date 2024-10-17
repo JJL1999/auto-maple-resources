@@ -1,0 +1,9 @@
+$, target=auto_use_wealth_potion, value=True
+$, target=whether_reenter_when_solving_runes_timeout, value=True
+$, target=change_channel_when_other_players_stay_too_long, value=True
+$, target=change_channel_key, "value=,"
+$, target=rune_alert_delay, value=1
+$, target=wealth_potion_key, value=home
+*, x=0.763, y=0.452, frequency=1, skip=False, adjust=True, period=0
+    FlashJumpWithShowdownRandomDirection, direction=left, jump_times=1, low_jump=True
+    Wait, duration=0.15
