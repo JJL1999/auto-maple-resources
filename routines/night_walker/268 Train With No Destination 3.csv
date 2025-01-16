@@ -1,7 +1,7 @@
-$, target=familiar_auto_level_up_enabled, value=False
+$, target=familiar_auto_level_up_enabled, value=True
 $, target=familiar_auto_level_up_start_row_and_column, value=1:1
-$, target=familiar_auto_level_up_end_row_and_column, value=6:8
-$, target=familiar_auto_level_up_summoned_familiar_to_put_down, value=2:1
+$, target=familiar_auto_level_up_end_row_and_column, value=5:7
+$, target=familiar_auto_level_up_summoned_familiar_to_put_down, value=3:1
 $, target=whether_refill_familiar_gauge, value=True
 $, target=refill_familiar_gauge_threshold, value=25
 $, target=auto_use_wealth_potion, value=True
@@ -21,40 +21,44 @@ $, target=time_range_to_auto_start_game, value=09:02:53 03:53:12
 @, label=main
 >M, labels=p1, go_back=True
 >M, labels=common, go_back=True
-*, x=0.262, y=0.309, frequency=1, skip=False, adjust=True, period=0, custom_tolerance=0.01
-    QuintupleStar, direction=right, jump_times=3
-    QuintupleStar, direction=right, walk_time=0.1, jump_times=3
-    RopeLift
-    QuintupleStar
+*, x=0.799, y=0.319, frequency=1, skip=False, adjust=True, period=0, custom_tolerance=0.01
+    QuintupleStar, direction=left, jump_times=3
+    QuintupleStar, direction=left, walk_time=0.1, jump_times=2
+    QuintupleStar, direction=left, up_jump_and_flash_jump=True, jump_times=0
     WaitInFloating, duration=0.2
-    QuintupleStar, direction=left, jump_times=2
-    QuintupleStar, direction=left, walk_time=0.1, jump_times=3
-    MoveAndAdjust, x=0.270, y=0.167, max_steps=15
+    QuintupleStar, direction=right, jump_times=3
+    QuintupleStar, direction=right, walk_time=0.1, jump_times=2
+    QuintupleStar, direction=right, walk_time=0.1, jump_times=2
     QuintupleStar, direction=down, jump_times=2
     QuintupleStar, direction=down, walk_time=0.1, jump_times=2
 >M, labels=main
-@, label=common1
+@, label=common
 >M, labels=buff, go_back=True
+>M, labels=exp, go_back=True
 @, label=p1
-*, x=0.262, y=0.309, frequency=1, skip=False, adjust=True, period=57, optimize_wait_time=True
-    GreaterDarkServant
+*, x=0.799, y=0.319, frequency=1, skip=False, adjust=True, period=57, optimize_wait_time=True
+    QuintupleStar, direction=left, jump_times=3
+    QuintupleStar, direction=left, walk_time=0.1, jump_times=2
+    QuintupleStar, direction=left, walk_time=0.1, jump_times=2
+    QuintupleStar, direction=left, walk_time=0.1, jump_times=2
+    MoveAndAdjust, x=0.191, y=0.319, max_steps=15
+    ShadowBite
     WaitInFloating, duration=0.2
-    QuintupleStar, direction=right, jump_times=2
-    QuintupleStar, direction=right, walk_time=0.1, jump_times=3
-    QuintupleStar, direction=right, walk_time=0.1, jump_times=2
-    QuintupleStar, direction=up, walk_time=0.1, jump_times=2
-    WaitInFloating, duration=0.4
-    MoveAndAdjust, x=0.708, y=0.240, max_steps=15, custom_tolerance=0.02
-    ErdaShower, direction=right
-    WaitInFloating, duration=0.2
-    QuintupleStar, direction=left, walk_time=0.3, jump_times=2
     RopeLift
     WaitInFloating, duration=0.7
-    QuintupleStar
     GreaterDarkServant
-    WaitInFloating, duration=0.4
-    ShadowBite, jump_times=1
+    QuintupleStar, direction=down, walk_time=0.2, jump_times=2
+    QuintupleStar, direction=down, walk_time=0.2, jump_times=2
+    MoveAndAdjust, x=0.181, y=0.245, max_steps=15
+    ErdaShower, direction=left
     WaitInFloating, duration=0.2
+    DarkOmen
+    WaitInFloating, duration=0.2
+    QuintupleStar, direction=right, walk_time=0.4, jump_times=3
+    QuintupleStar, direction=right, walk_time=0.4, jump_times=3
+    QuintupleStar, direction=right, walk_time=0.1, jump_times=2
+    QuintupleStar, direction=right, walk_time=0.1, jump_times=2
+    QuintupleStar, direction=down, jump_times=2
 @, label=buff
 >M, labels=shadow_spear-87:true_arachnid_reflection-50:solar_crest-50:nothing-50.5, go_back=True
 *, frequency=1, skip=False, adjust=True, period=0
@@ -70,8 +74,12 @@ $, target=time_range_to_auto_start_game, value=09:02:53 03:53:12
 *, frequency=1, skip=False, adjust=True, period=0
     SolarCrest
 @, label=exp
->M, labels=do_exp-910, go_back=True
+>M, labels=do_exp-1830, go_back=True
 @, label=do_exp
 *, frequency=1, skip=False, adjust=True, period=0
-    Silence
+    GuildBuffCriticalDamage
+    WaitInFloating, duration=0.2
+    GuildBuffDamage
+    WaitInFloating, duration=0.2
+    HyperSkillDamage
 

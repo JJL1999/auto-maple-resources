@@ -1,0 +1,75 @@
+$, target=whether_refill_familiar_gauge, value=True
+$, target=familiar_ui_key, "value=;"
+$, target=familiar_essence_key, value=.
+$, target=refill_familiar_gauge_threshold, value=25
+$, target=auto_use_wealth_potion, value=True
+$, target=whether_reconnect_when_game_disconnected, value=True
+$, target=switch_skills_to_open_when_reconnect_game, "value=0, 9, -, `"
+$, target=starter_for_game_when_reconnect, value=SteamStarter
+$, target=whether_change_channel_when_solving_runes_timeout, value=True
+$, target=change_channel_when_other_players_stay_too_long, value=True
+$, target=change_channel_key, "value=,"
+$, target=rune_alert_delay, value=75
+$, target=wealth_potion_key, value=home
+*, x=0.167, y=0.323, frequency=1, skip=False, adjust=True, period=41
+    FlashJumpWithQuintupleStarRandomDirection, direction=right, jump_times=1, low_jump=True
+    Wait, duration=0.100
+    GreaterDarkServant, direction=None
+    Wait, duration=0.4
+    FlashJumpWithQuintupleStarRandomDirection, direction=right, jump_times=1, low_jump=True
+    Wait, duration=0.100
+    FlashJumpWithQuintupleStarRandomDirection, direction=right, jump_times=2, low_jump=True
+    Wait, duration=0.100
+    UpJumpAndFlashJumpWithQuintupleStarRandomDirection, direction=right
+    Wait, duration=1
+    MoveAndAdjust, x=0.829, y=0.255, max_steps=15
+    Wait, duration=0.1
+    ShadowDodge, direction=right
+    Wait, duration=0.15
+    MoveAndAdjust, x=0.792, y=0.255, max_steps=15
+    SolJanus, direction=None
+    Wait, duration=0.2
+    FlashJumpWithQuintupleStarRandomDirection, direction=left, jump_times=1, low_jump=True
+    Wait, duration=0.100
+    UpJumpAndFlashJumpWithQuintupleStarRandomDirection, direction=left
+    Wait, duration=0.8
+    MoveAndAdjust, x=0.474, y=0.167, max_steps=15
+    SolJanus, direction=right
+    Wait, duration=0.2
+    FlashJumpWithQuintupleStarRandomDirection, direction=left, jump_times=2, low_jump=True
+    Wait, duration=0.300
+    MoveAndAdjust, x=0.266, y=0.177, max_steps=15
+    Wait, duration=0.1
+    ShadowDodge, direction=right
+    Wait, duration=0.15
+    MoveAndAdjust, x=0.214, y=0.177, max_steps=15
+    ErdaShower, direction=right, jump=False, use_erda_foundation=False
+    Wait, duration=0.2
+    ShadowBite, jump=False
+    Wait, duration=0.2
+    Walk, direction=left, duration=0.5
+    Wait, duration=0.4
+    GreaterDarkServant, direction=down
+    Wait, duration=0.4
+    FlashJumpWithQuintupleStarRandomDirection, direction=down, jump_times=1, low_jump=False
+    Wait, duration=0.2
+*, x=0.167, y=0.323, frequency=1, skip=False, adjust=True, period=0
+    FlashJumpWithQuintupleStarRandomDirection, direction=right, jump_times=1, low_jump=True
+    Wait, duration=0.1
+*, x=0.323, y=0.323, frequency=1, skip=False, adjust=False, period=0
+    FlashJumpWithQuintupleStarRandomDirection, direction=right, jump_times=1, low_jump=True
+    Wait, duration=0.1
+*, x=0.484, y=0.323, frequency=1, skip=False, adjust=False, period=0
+    FlashJumpWithQuintupleStarRandomDirection, direction=right, jump_times=1, low_jump=True
+    Wait, duration=0.1
+    DarkOmen, jump=False, direction=None
+    Wait, duration=0.2
+*, x=0.635, y=0.323, frequency=1, skip=False, adjust=False, period=0
+    FlashJumpWithQuintupleStarRandomDirection, direction=left, jump_times=1, low_jump=True
+    Wait, duration=0.1
+*, x=0.484, y=0.323, frequency=1, skip=False, adjust=False, period=0
+    FlashJumpWithQuintupleStarRandomDirection, direction=left, jump_times=1, low_jump=True
+    Wait, duration=0.1
+*, x=0.323, y=0.323, frequency=1, skip=False, adjust=False, period=0
+    FlashJumpWithQuintupleStarRandomDirection, direction=left, jump_times=1, low_jump=True
+    Wait, duration=0.1

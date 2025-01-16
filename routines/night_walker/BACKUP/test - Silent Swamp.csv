@@ -1,0 +1,56 @@
+$, target=whether_refill_familiar_gauge, value=False
+$, target=familiar_ui_key, "value=;"
+$, target=familiar_essence_key, value=.
+$, target=refill_familiar_gauge_threshold, value=25
+$, target=auto_use_wealth_potion, value=True
+$, target=whether_reconnect_when_game_disconnected, value=False
+$, target=whether_proactively_reconnect_in_a_specified_period, value=True
+$, target=proactively_reconnect_period, value=3600
+$, target=auto_stop_and_start_game_in_specified_time_enabled, value=True
+$, target=switch_skills_to_open_when_reconnect_game, "value=0"
+$, target=starter_for_game_when_reconnect, value=LeigodBoosterStarter
+$, target=whether_change_channel_when_solving_runes_timeout, value=True
+$, target=change_channel_when_other_players_stay_too_long, value=True
+$, target=change_channel_key, "value=,"
+$, target=rune_alert_delay, value=75
+$, target=wealth_potion_key, value=home
+@, label=left1
+*, x=0.172, y=0.239, frequency=1, skip=False, adjust=True, period=0
+    WaitForMonsterRefreshing, monster_name=3, match_threshold=0.8286026200873361, monster_number_to_attack=4
+    QuintupleStarDirection, direction=left
+    WaitInFloating, duration=0.350
+    FlashJumpWithQuintupleStarRandomDirection, direction=right, jump_times=1, low_jump=True
+    WaitInFloating, duration=0.100
+*, x=0.325, y=0.239, frequency=1, skip=False, adjust=False, period=0
+    FlashJumpWithQuintupleStarRandomDirection, direction=right, jump_times=1, low_jump=True
+    WaitInFloating, duration=0.100
+*, x=0.466, y=0.239, frequency=1, skip=False, adjust=False, period=0
+    FlashJumpWithQuintupleStarRandomDirection, direction=right, jump_times=1, low_jump=True
+    WaitInFloating, duration=0.100
+*, x=0.626, y=0.239, frequency=1, skip=False, adjust=False, period=0
+    FlashJumpWithQuintupleStarRandomDirection, direction=right, jump_times=1, low_jump=True
+    WaitInFloating, duration=0.100
+    FlashJumpWithQuintupleStarRandomDirection, direction=right, jump_times=0, low_jump=True
+    WaitInFloating, duration=0.200
+>R, labels=right1
+@, label=right1
+*, x=0.779, y=0.239, frequency=1, skip=False, adjust=True, period=0
+    WaitForMonsterRefreshing, monster_name=3, match_threshold=0.8286026200873361, monster_number_to_attack=4
+    QuintupleStarDirection, direction=right
+    WaitInFloating, duration=0.350
+    FlashJumpWithQuintupleStarRandomDirection, direction=left, jump_times=1, low_jump=True
+    WaitInFloating, duration=0.100
+*, x=0.626, y=0.239, frequency=1, skip=False, adjust=False, period=0
+    FlashJumpWithQuintupleStarRandomDirection, direction=left, jump_times=1, low_jump=True
+    WaitInFloating, duration=0.100
+*, x=0.466, y=0.239, frequency=1, skip=False, adjust=False, period=0
+    FlashJumpWithQuintupleStarRandomDirection, direction=left, jump_times=1, low_jump=True
+    WaitInFloating, duration=0.100
+*, x=0.325, y=0.239, frequency=1, skip=False, adjust=False, period=0
+    FlashJumpWithQuintupleStarRandomDirection, direction=left, jump_times=1, low_jump=True
+    WaitInFloating, duration=0.100
+    FlashJumpWithQuintupleStarRandomDirection, direction=left, jump_times=0, low_jump=True
+    WaitInFloating, duration=0.200
+*, x=0.172, y=0.239, frequency=1, skip=False, adjust=False, period=120
+    SolJanus
+>R, labels=left1

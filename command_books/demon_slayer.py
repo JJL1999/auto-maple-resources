@@ -209,6 +209,9 @@ class RopeLift(Command):
             time.sleep(0.1)
             press(Key.JUMP)
         press(Key.ROPE_LIFT, 2)
+        time.sleep(1.2)
+        if self.jump:
+            time.sleep(0.3)
 
 
 class KeyControl(Command):
@@ -227,10 +230,10 @@ class KeyControl(Command):
         time.sleep(0.1)
 
 
-def normal_skill(key, direction, jump_times=0, walk_time=0, num_press=3):
+def execute_general_skill_template(key, direction, jump_times=0, walk_time=0, num_press=3):
     utils.sleep_in_floating(0.05)
     flash_jumped = False
-    if direction:
+    if direction and direction != 'up':
         key_down(direction)
     if walk_time == 0:
         utils.sleep_in_floating(0.05)
@@ -302,8 +305,8 @@ class InfernalConcussion(Command):
 
     @staticmethod
     def infernal_concussion(direction, jump_times, walk_time, num_press):
-        normal_skill(Key.INFERNAL_CONCUSSION, direction, jump_times=jump_times, walk_time=walk_time,
-                     num_press=num_press)
+        execute_general_skill_template(Key.INFERNAL_CONCUSSION, direction, jump_times=jump_times, walk_time=walk_time,
+                                       num_press=num_press)
 
     def main(self):
         InfernalConcussion.infernal_concussion(self.direction, self.jump_times, self.walk_time, self.num_press)
@@ -320,7 +323,7 @@ class DemonLash(Command):
 
     @staticmethod
     def demon_lash(direction, jump_times, num_press):
-        normal_skill(Key.DEMON_LASH, direction, jump_times=jump_times, num_press=num_press)
+        execute_general_skill_template(Key.DEMON_LASH, direction, jump_times=jump_times, num_press=num_press)
 
     def main(self):
         DemonLash.demon_lash(self.direction, self.jump_times, self.num_press)
@@ -337,7 +340,7 @@ class Orthrus(Command):
 
     @staticmethod
     def orthrus(direction, jump_times, num_press):
-        normal_skill(Key.ORTHRUS, direction, jump_times=jump_times, num_press=num_press)
+        execute_general_skill_template(Key.ORTHRUS, direction, jump_times=jump_times, num_press=num_press)
 
     def main(self):
         Orthrus.orthrus(self.direction, self.jump_times, self.num_press)
@@ -354,7 +357,7 @@ class DemonCry(Command):
 
     @staticmethod
     def demon_cry(direction, jump_times, num_press):
-        normal_skill(Key.DEMON_CRY, direction, jump_times=jump_times, num_press=num_press)
+        execute_general_skill_template(Key.DEMON_CRY, direction, jump_times=jump_times, num_press=num_press)
 
     def main(self):
         DemonCry.demon_cry(self.direction, self.jump_times, self.num_press)
@@ -371,7 +374,7 @@ class BoundlessRage(Command):
 
     @staticmethod
     def boundless_rage(direction, jump_times, num_press):
-        normal_skill(Key.BOUNDLESS_RAGE, direction, jump_times=jump_times, num_press=num_press)
+        execute_general_skill_template(Key.BOUNDLESS_RAGE, direction, jump_times=jump_times, num_press=num_press)
 
     def main(self):
         BoundlessRage.boundless_rage(self.direction, self.jump_times, self.num_press)
@@ -388,7 +391,7 @@ class DemonImpact(Command):
 
     @staticmethod
     def demon_impact(direction, jump_times, num_press):
-        normal_skill(Key.DEMON_IMPACT, direction, jump_times=jump_times, num_press=num_press)
+        execute_general_skill_template(Key.DEMON_IMPACT, direction, jump_times=jump_times, num_press=num_press)
 
     def main(self):
         DemonImpact.demon_impact(self.direction, self.jump_times, self.num_press)
@@ -405,7 +408,7 @@ class DarkMetamorphosis(Command):
 
     @staticmethod
     def dark_metamorphosis(direction, jump_times, num_press):
-        normal_skill(Key.DARK_METAMORPHOSIS, direction, jump_times=jump_times, num_press=num_press)
+        execute_general_skill_template(Key.DARK_METAMORPHOSIS, direction, jump_times=jump_times, num_press=num_press)
         utils.sleep_in_floating(1)
 
     def main(self):
@@ -446,7 +449,7 @@ class CerberusChomp(Command):
 
     @staticmethod
     def cerberus_chomp(direction, jump_times, num_press):
-        normal_skill(Key.CERBERUS_CHOMP, direction, jump_times=jump_times, num_press=num_press)
+        execute_general_skill_template(Key.CERBERUS_CHOMP, direction, jump_times=jump_times, num_press=num_press)
 
     def main(self):
         CerberusChomp.cerberus_chomp(self.direction, self.jump_times, self.num_press)
@@ -463,7 +466,7 @@ class Nightmare(Command):
 
     @staticmethod
     def nightmare(direction, jump_times, num_press):
-        normal_skill(Key.NIGHTMARE, direction, jump_times=jump_times, num_press=num_press)
+        execute_general_skill_template(Key.NIGHTMARE, direction, jump_times=jump_times, num_press=num_press)
 
     def main(self):
         Nightmare.nightmare(self.direction, self.jump_times, self.num_press)
@@ -479,7 +482,7 @@ class SpiritOfRage(Command):
 
     @staticmethod
     def spirit_of_rage(direction, jump_times, num_press):
-        normal_skill(Key.SPIRIT_OF_RAGE, direction, jump_times=jump_times, num_press=num_press)
+        execute_general_skill_template(Key.SPIRIT_OF_RAGE, direction, jump_times=jump_times, num_press=num_press)
 
     def main(self):
         SpiritOfRage.spirit_of_rage(self.direction, 0, self.num_press)
@@ -496,7 +499,7 @@ class DemonAwakening(Command):
 
     @staticmethod
     def demon_awakening(direction, jump_times, num_press):
-        normal_skill(Key.DEMON_AWAKENING, direction, jump_times=jump_times, num_press=num_press)
+        execute_general_skill_template(Key.DEMON_AWAKENING, direction, jump_times=jump_times, num_press=num_press)
 
     def main(self):
         DemonAwakening.demon_awakening(self.direction, self.jump_times, self.num_press)
@@ -513,7 +516,7 @@ class BlueBlood(Command):
 
     @staticmethod
     def blue_blood(direction, jump_times, num_press):
-        normal_skill(Key.BLUE_BLOOD, direction, jump_times=jump_times, num_press=num_press)
+        execute_general_skill_template(Key.BLUE_BLOOD, direction, jump_times=jump_times, num_press=num_press)
 
     def main(self):
         BlueBlood.blue_blood(self.direction, self.jump_times, self.num_press)
@@ -533,7 +536,7 @@ class SolJanus(Command):
 
     @staticmethod
     def sol_janus(direction, jump_times, num_press):
-        normal_skill(Key.SOL_JANUS, direction, jump_times=jump_times, num_press=num_press)
+        execute_general_skill_template(Key.SOL_JANUS, direction, jump_times=jump_times, num_press=num_press)
 
     def main(self):
         SolJanus.sol_janus(self.direction, self.jump_times, self.num_press)
@@ -553,7 +556,7 @@ class ErdaShower(Command):
 
     @staticmethod
     def erda_shower(direction, jump_times, num_press):
-        normal_skill(Key.ERDA_SHOWER, direction, jump_times=jump_times, num_press=num_press)
+        execute_general_skill_template(Key.ERDA_SHOWER, direction, jump_times=jump_times, num_press=num_press)
 
     def main(self):
         ErdaShower.erda_shower(self.direction, self.jump_times, self.num_press)

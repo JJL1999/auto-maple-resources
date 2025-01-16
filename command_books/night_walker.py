@@ -4,7 +4,6 @@ import math
 import time
 
 from src.common import config, settings, utils
-from src.common.utils import human_like
 from src.common.vkeys import press, key_down, key_up
 from src.routine.components import Command
 
@@ -13,8 +12,7 @@ from src.routine.components import Command
 class Key:
     # Movement
     JUMP = 'space'
-    FLASH_JUMP = 'g'
-    ROPE_LIFT = 'c'
+    ROPE_LIFT = 'v'
 
     # Buffs
     # SHADOW_PARTNER = '1'
@@ -35,16 +33,31 @@ class Key:
     DARK_OMEN = 's'
     SHADOW_DODGE = 'f'
     RAPID_THROW = 'e'
+    PHALANX_CHARGE = 'g'
+    SHADOW_SPEAR = 'f1'
+    SILENCE = 'f4'
+    DARK_ELEMENTAL = '0'
+    SHADOW_BAT = '9'
 
     # Commons
     ERDA_SHOWER = 't'
     SOL_JANUS = 'i'
+    TRUE_ARACHNID_REFLECTION = 'u'
+    SOLAR_CREST = 'h'
+
+    # Common Buffs
+    HERO_ECHO = 'f8'
+    G_BUFF_CRI = 'f5'
+    G_BUFF_DAM = 'f6'
+    HYPER_BUFF_DAM = 'f2'
+    GODDESS_BUFF = 'f3'
 
 
 #########################
 #       Commands        #
 #########################
-flash_jump_distance = 1.3 * settings.move_tolerance
+flash_jump_distance = 1.1 * settings.move_tolerance
+jump_and_attack = None
 
 
 def up(dy):
@@ -54,6 +67,7 @@ def up(dy):
         RopeLift(jump=jump).main()
     else:
         FlashJump('up', 2).main()
+    utils.sleep_in_floating(0.3)
 
 
 def step(direction, target):
@@ -73,7 +87,10 @@ def step(direction, target):
         time.sleep(0.5)
     elif direction == 'up':
         up(d_y)
-    press(Key.JUMP, num_presses)
+    if jump_and_attack is None or direction == 'up':
+        press(Key.JUMP, num_presses)
+    else:
+        jump_and_attack.main()
     time.sleep(0.5)
 
 
@@ -128,7 +145,7 @@ class Adjust(Command):
                     counter -= 1
             error = utils.distance(config.player_pos, self.target)
             toggle = not toggle
-            time.sleep(0.2)
+            time.sleep(0.3)
 
 
 class Buff(Command):
@@ -170,30 +187,52 @@ class Buff(Command):
 class FlashJump(Command):
     """Performs a flash jump in the given direction."""
 
-    def __init__(self, direction, jump_times=1):
+    def __init__(self, direction, jump_times=2):
         super().__init__(locals())
         self.direction = settings.validate_arrows(direction)
-        self.jump_times = settings.validate_non_negative_int(jump_times)
+        self.jump_times = settings.validate_positive_int(jump_times)
+
+    @staticmethod
+    def flash_jump(direction, jump_times, wait_time=None):
+        if jump_times <= 0:
+            return
+        if direction != 'up':
+            if direction:
+                key_down(direction)
+            press(Key.JUMP, 1, down_time=0.02, up_time=0.02)
+        else:
+            press(Key.JUMP, 1, down_time=0.02, up_time=0.0)
+            if direction:
+                key_down(direction)
+        press(Key.JUMP, jump_times - 1, down_time=0.02, up_time=0.02)
+        if direction:
+            key_up(direction)
+        if wait_time is not None:
+            utils.sleep_in_floating(wait_time)
+        else:
+            utils.sleep_in_floating(jump_times * 0.03)
+
+    @staticmethod
+    def up_jump_and_flash_jump(direction, jump_times, wait_time=0.4):
+        FlashJump.flash_jump('up', 3, 0.01)
+        key_down(direction)
+        utils.sleep_in_floating(0.1)
+        if jump_times > 0:
+            press(Key.JUMP, jump_times - 1, up_time=0.02, down_time=0.02)
+        key_up(direction)
+        utils.sleep_in_floating(wait_time)
 
     def main(self):
-        time.sleep(0.1)
-        if self.direction != 'up':
-            key_down(self.direction)
-            press(Key.JUMP, 1)
-        else:
-            press(Key.JUMP, 1)
-            key_down(self.direction)
-        press(Key.JUMP, self.jump_times)
-        key_up(self.direction)
-        time.sleep(0.5)
+        self.flash_jump(self.direction, self.jump_times)
 
 
 class RopeLift(Command):
     """Performs a flash jump in the given direction."""
 
-    def __init__(self, jump='False'):
+    def __init__(self, jump='False', wait_time=1.2):
         super().__init__(locals())
         self.jump = settings.validate_boolean(jump)
+        self.wait_time = settings.validate_float(wait_time)
 
     def main(self):
         print(f"{self.jump}")
@@ -201,7 +240,7 @@ class RopeLift(Command):
             time.sleep(0.1)
             press(Key.JUMP)
         press(Key.ROPE_LIFT, 2)
-        time.sleep(1.2)
+        time.sleep(self.wait_time)
         if self.jump:
             time.sleep(0.3)
 
@@ -222,284 +261,439 @@ class KeyControl(Command):
         time.sleep(0.1)
 
 
+def execute_general_skill_template(key, direction=None, jump_times=0, up_jump_and_flash_jump=False, walk_time=0, num_press=3,
+                                   repetitions=1):
+    for _ in range(repetitions):
+        flash_jumped = False
+        if direction and direction != 'up':
+            key_down(direction)
+        if walk_time != 0:
+            utils.sleep_in_floating(walk_time)
+        if up_jump_and_flash_jump:
+            FlashJump.up_jump_and_flash_jump(direction, jump_times, 0.05)
+        elif jump_times >= 1:
+            FlashJump.flash_jump(direction, jump_times, 0.05)
+            flash_jumped = True
+        press(key, num_press, down_time=0.01, up_time=0.01)
+        if direction:
+            key_up(direction)
+        if flash_jumped:
+            utils.sleep_in_floating(0.1)
+
+
 class QuintupleStar(Command):
     """Attacks using 'CruelStab' in a given direction."""
 
-    def __init__(self, direction, attacks=2, repetitions=1):
+    def __init__(self, direction=None, up_jump_and_flash_jump='False',
+                 jump_times=0, walk_time=0, num_press=3, repetitions=1):
         super().__init__(locals())
-        self.direction = settings.validate_horizontal_arrows(direction)
-        self.attacks = int(attacks)
-        self.repetitions = int(repetitions)
+        self.direction = settings.validate_arrows(direction, nullable=True)
+        self.up_jump_and_flash_jump = settings.validate_boolean(up_jump_and_flash_jump)
+        self.jump_times = settings.validate_non_negative_int(jump_times)
+        self.walk_time = settings.validate_float(walk_time)
+        self.num_press = settings.validate_positive_int(num_press)
+        self.repetitions = settings.validate_positive_int(repetitions)
 
     def main(self):
-        time.sleep(0.05)
-        key_down(self.direction)
-        time.sleep(0.05)
-        if config.stage_fright and utils.bernoulli(0.7):
-            time.sleep(utils.rand_float(0.1, 0.3))
-        for _ in range(self.repetitions):
-            press(Key.QUINTUPLE_STAR, self.attacks, up_time=0.05)
-        key_up(self.direction)
-        if self.attacks > 2:
-            time.sleep(0.3)
-        else:
-            time.sleep(0.2)
+        execute_general_skill_template(Key.QUINTUPLE_STAR, self.direction,
+                                       up_jump_and_flash_jump=self.up_jump_and_flash_jump,
+                                       jump_times=self.jump_times, walk_time=self.walk_time,
+                                       num_press=self.num_press, repetitions=self.repetitions)
 
 
-class QuintupleStarDirection(Command):
-    """Uses 'CruelStab' once."""
-
-    def __init__(self, direction=None, jump='False'):
-        super().__init__(locals())
-        if direction is None or str(direction).lower() == 'none':
-            self.direction = None
-        else:
-            self.direction = settings.validate_horizontal_arrows(direction)
-        self.jump = settings.validate_boolean(jump)
-
-    def main(self):
-        if self.direction:
-            press(self.direction, 1, down_time=0.1, up_time=0.05)
-
-        if self.jump:
-            press(Key.JUMP, 1, down_time=0.1, up_time=0.15)
-        press(Key.QUINTUPLE_STAR, 1, up_time=0.05)
+jump_and_attack = QuintupleStar(jump_times=2)
 
 
 class GreaterDarkServant(Command):
     """
-    Uses 'DarkFlare' in a given direction, or towards the center of the map if
-    no direction is specified.
+    Uses 'GreaterDarkServant' in a given direction
     """
 
-    def __init__(self, direction=None):
+    def __init__(self, direction=None, up_jump_and_flash_jump='False',
+                 jump_times=0, walk_time=0, num_press=3, repetitions=1):
         super().__init__(locals())
-        if direction is None or str(direction).lower() == 'none':
-            self.direction = None
-        else:
-            self.direction = settings.validate_arrows(direction)
+        self.direction = settings.validate_arrows(direction, nullable=True)
+        # self.up_jump_and_flash_jump = settings.validate_boolean(up_jump_and_flash_jump)
+        # self.jump_times = settings.validate_non_negative_int(jump_times)
+        self.walk_time = settings.validate_float(walk_time)
+        self.num_press = settings.validate_positive_int(num_press)
+        self.repetitions = settings.validate_positive_int(repetitions)
 
     def main(self):
-        if self.direction:
-            key_down(self.direction)
-            time.sleep(0.1)
-        press(Key.GREATER_DARK_SERVANT, 2)
-        if self.direction:
-            key_up(self.direction)
-
-
-class SolJanus(Command):
-    """
-    Uses 'DarkFlare' in a given direction, or towards the center of the map if
-    no direction is specified.
-    """
-
-    def __init__(self, direction=None):
-        super().__init__(locals())
-        if direction is None or str(direction).lower() == 'none':
-            self.direction = None
-        else:
-            self.direction = settings.validate_horizontal_arrows(direction)
-
-    def main(self):
-        if self.direction:
-            press(self.direction, 1, down_time=0.1, up_time=0.05)
-        press(Key.SOL_JANUS, 3)
+        execute_general_skill_template(Key.GREATER_DARK_SERVANT, self.direction,
+                                       # up_jump_and_flash_jump=self.up_jump_and_flash_jump,
+                                       # jump_times=self.jump_times,
+                                       walk_time=self.walk_time,
+                                       num_press=self.num_press, repetitions=self.repetitions)
 
 
 class ShadowDodge(Command):
     """
-    Uses 'DarkFlare' in a given direction, or towards the center of the map if
-    no direction is specified.
+    Uses 'ShadowDodge' in a given direction
     """
 
-    def __init__(self, direction=None):
+    def __init__(self, true_direction, up_jump_and_flash_jump='False',
+                 jump_times=0, walk_time=0, num_press=3, repetitions=1):
         super().__init__(locals())
-        if direction is None or str(direction).lower() == 'none':
-            self.direction = None
-        else:
-            self.direction = settings.validate_horizontal_arrows(direction)
+        self.direction = settings.validate_arrows(true_direction, nullable=True)
+        # Get the reverse horizontal direction
+        if self.direction is not None:
+            self.direction = 'right' if self.direction == 'left' else (
+                'left' if self.direction == 'right' else self.direction
+            )
+        self.up_jump_and_flash_jump = settings.validate_boolean(up_jump_and_flash_jump)
+        self.jump_times = settings.validate_non_negative_int(jump_times)
+        self.walk_time = settings.validate_float(walk_time)
+        self.num_press = settings.validate_positive_int(num_press)
+        self.repetitions = settings.validate_positive_int(repetitions)
 
     def main(self):
-        if self.direction:
+        time.sleep(0.05)
+        d = self.direction
+        if self.direction and self.direction == 'left' or self.direction == 'right':
+            d = None
             key_down(self.direction)
-            time.sleep(0.08)
-        press(Key.SHADOW_DODGE, 1)
-        if self.direction:
+            utils.sleep_in_floating(0.05)
             key_up(self.direction)
+        execute_general_skill_template(Key.SHADOW_DODGE, d,
+                                       up_jump_and_flash_jump=self.up_jump_and_flash_jump,
+                                       jump_times=self.jump_times, walk_time=self.walk_time,
+                                       num_press=self.num_press, repetitions=self.repetitions)
 
 
 class DarkOmen(Command):
     """
-    Uses 'ShadowVeil' in a given direction, or towards the center of the map if
+    Uses 'DarkOmen' in a given direction
+    """
+
+    def __init__(self, direction=None, up_jump_and_flash_jump='False',
+                 jump_times=0, walk_time=0, num_press=3, repetitions=1):
+        super().__init__(locals())
+        self.direction = settings.validate_arrows(direction, nullable=True)
+        self.up_jump_and_flash_jump = settings.validate_boolean(up_jump_and_flash_jump)
+        self.jump_times = settings.validate_non_negative_int(jump_times)
+        self.walk_time = settings.validate_float(walk_time)
+        self.num_press = settings.validate_positive_int(num_press)
+        self.repetitions = settings.validate_positive_int(repetitions)
+
+    def main(self):
+        execute_general_skill_template(Key.DARK_OMEN, self.direction,
+                                       up_jump_and_flash_jump=self.up_jump_and_flash_jump,
+                                       jump_times=self.jump_times, walk_time=self.walk_time,
+                                       num_press=self.num_press, repetitions=self.repetitions)
+
+
+class ShadowBite(Command):
+    """
+    Uses 'ShadowBite' in a given direction
+    """
+
+    def __init__(self, direction=None, up_jump_and_flash_jump='False',
+                 jump_times=0, walk_time=0, num_press=3, repetitions=1):
+        super().__init__(locals())
+        self.direction = settings.validate_arrows(direction, nullable=True)
+        self.up_jump_and_flash_jump = settings.validate_boolean(up_jump_and_flash_jump)
+        self.jump_times = settings.validate_non_negative_int(jump_times)
+        self.walk_time = settings.validate_float(walk_time)
+        self.num_press = settings.validate_positive_int(num_press)
+        self.repetitions = settings.validate_positive_int(repetitions)
+
+    def main(self):
+        execute_general_skill_template(Key.SHADOW_BITE, self.direction,
+                                       up_jump_and_flash_jump=self.up_jump_and_flash_jump,
+                                       jump_times=self.jump_times, walk_time=self.walk_time,
+                                       num_press=self.num_press, repetitions=self.repetitions)
+
+
+class RapidThrow(Command):
+    """
+    Uses 'ShadowBite' in a given direction
+    """
+
+    def __init__(self, direction=None, up_jump_and_flash_jump='False',
+                 jump_times=0, walk_time=0, num_press=3, repetitions=1):
+        super().__init__(locals())
+        self.direction = settings.validate_arrows(direction, nullable=True)
+        self.up_jump_and_flash_jump = settings.validate_boolean(up_jump_and_flash_jump)
+        self.jump_times = settings.validate_non_negative_int(jump_times)
+        self.walk_time = settings.validate_float(walk_time)
+        self.num_press = settings.validate_positive_int(num_press)
+        self.repetitions = settings.validate_positive_int(repetitions)
+
+    def main(self):
+        execute_general_skill_template(Key.RAPID_THROW, self.direction,
+                                       up_jump_and_flash_jump=self.up_jump_and_flash_jump,
+                                       jump_times=self.jump_times, walk_time=self.walk_time,
+                                       num_press=self.num_press, repetitions=self.repetitions)
+
+
+class PhalanxCharge(Command):
+    """
+    Uses 'PhalanxCharge' in a given direction
+    """
+
+    def __init__(self, direction=None, up_jump_and_flash_jump='False',
+                 jump_times=0, walk_time=0, num_press=1, repetitions=1):
+        super().__init__(locals())
+        self.direction = settings.validate_arrows(direction, nullable=True)
+        self.up_jump_and_flash_jump = settings.validate_boolean(up_jump_and_flash_jump)
+        self.jump_times = settings.validate_non_negative_int(jump_times)
+        self.walk_time = settings.validate_float(walk_time)
+        self.num_press = settings.validate_positive_int(num_press)
+        self.repetitions = settings.validate_positive_int(repetitions)
+
+    def main(self):
+        execute_general_skill_template(Key.PHALANX_CHARGE, self.direction,
+                                       up_jump_and_flash_jump=self.up_jump_and_flash_jump,
+                                       jump_times=self.jump_times, walk_time=self.walk_time,
+                                       num_press=self.num_press, repetitions=self.repetitions)
+
+
+class ShadowSpear(Command):
+    """
+    Uses 'PhalanxCharge' in a given direction
+    """
+
+    def __init__(self, direction=None, up_jump_and_flash_jump='False',
+                 jump_times=0, walk_time=0, num_press=3, repetitions=1):
+        super().__init__(locals())
+        self.direction = settings.validate_arrows(direction, nullable=True)
+        self.up_jump_and_flash_jump = settings.validate_boolean(up_jump_and_flash_jump)
+        self.jump_times = settings.validate_non_negative_int(jump_times)
+        self.walk_time = settings.validate_float(walk_time)
+        self.num_press = settings.validate_positive_int(num_press)
+        self.repetitions = settings.validate_positive_int(repetitions)
+
+    def main(self):
+        execute_general_skill_template(Key.SHADOW_SPEAR, self.direction,
+                                       up_jump_and_flash_jump=self.up_jump_and_flash_jump,
+                                       jump_times=self.jump_times, walk_time=self.walk_time,
+                                       num_press=self.num_press, repetitions=self.repetitions)
+
+
+class Silence(Command):
+    """
+    Uses 'PhalanxCharge' in a given direction
+    """
+
+    def __init__(self, direction=None, up_jump_and_flash_jump='False',
+                 jump_times=0, walk_time=0, num_press=3, repetitions=1):
+        super().__init__(locals())
+        self.direction = settings.validate_arrows(direction, nullable=True)
+        self.up_jump_and_flash_jump = settings.validate_boolean(up_jump_and_flash_jump)
+        self.jump_times = settings.validate_non_negative_int(jump_times)
+        self.walk_time = settings.validate_float(walk_time)
+        self.num_press = settings.validate_positive_int(num_press)
+        self.repetitions = settings.validate_positive_int(repetitions)
+
+    def main(self):
+        execute_general_skill_template(Key.SILENCE, self.direction,
+                                       up_jump_and_flash_jump=self.up_jump_and_flash_jump,
+                                       jump_times=self.jump_times, walk_time=self.walk_time,
+                                       num_press=self.num_press, repetitions=self.repetitions)
+
+
+class DarkElemental(Command):
+    """
+    Uses 'PhalanxCharge' in a given direction
+    """
+
+    def __init__(self, direction=None, up_jump_and_flash_jump='False',
+                 jump_times=0, walk_time=0, num_press=1, repetitions=1):
+        super().__init__(locals())
+        self.direction = settings.validate_arrows(direction, nullable=True)
+        self.up_jump_and_flash_jump = settings.validate_boolean(up_jump_and_flash_jump)
+        self.jump_times = settings.validate_non_negative_int(jump_times)
+        self.walk_time = settings.validate_float(walk_time)
+        self.num_press = settings.validate_positive_int(num_press)
+        self.repetitions = settings.validate_positive_int(repetitions)
+
+    def main(self):
+        execute_general_skill_template(Key.DARK_ELEMENTAL, self.direction,
+                                       up_jump_and_flash_jump=self.up_jump_and_flash_jump,
+                                       jump_times=self.jump_times, walk_time=self.walk_time,
+                                       num_press=self.num_press, repetitions=self.repetitions)
+
+
+class ShadowBat(Command):
+    """
+    Uses 'PhalanxCharge' in a given direction
+    """
+
+    def __init__(self, direction=None, up_jump_and_flash_jump='False',
+                 jump_times=0, walk_time=0, num_press=1, repetitions=1):
+        super().__init__(locals())
+        self.direction = settings.validate_arrows(direction, nullable=True)
+        self.up_jump_and_flash_jump = settings.validate_boolean(up_jump_and_flash_jump)
+        self.jump_times = settings.validate_non_negative_int(jump_times)
+        self.walk_time = settings.validate_float(walk_time)
+        self.num_press = settings.validate_positive_int(num_press)
+        self.repetitions = settings.validate_positive_int(repetitions)
+
+    def main(self):
+        execute_general_skill_template(Key.SHADOW_BAT, self.direction,
+                                       up_jump_and_flash_jump=self.up_jump_and_flash_jump,
+                                       jump_times=self.jump_times, walk_time=self.walk_time,
+                                       num_press=self.num_press, repetitions=self.repetitions)
+
+
+class SolJanus(Command):
+    """
+    Uses 'SolJanus' in a given direction, or towards the center of the map if
     no direction is specified.
     """
 
-    def __init__(self, jump='False', direction=None):
+    def __init__(self, direction=None, jump_times=0, num_press=3):
         super().__init__(locals())
-        if direction is None or str(direction).lower() == 'none':
-            self.direction = None
-        else:
-            self.direction = settings.validate_horizontal_arrows(direction)
-        self.jump = settings.validate_boolean(jump)
+        self.direction = settings.validate_horizontal_arrows(direction, nullable=True)
+        self.num_press = settings.validate_positive_int(num_press)
+        self.jump_times = settings.validate_non_negative_int(jump_times)
 
     def main(self):
-        if self.direction:
-            press(self.direction, 1, down_time=0.1, up_time=0.05)
-        if self.jump:
-            press(Key.JUMP, 1, down_time=0.1, up_time=0.15)
-        press(Key.DARK_OMEN, 3)
+        execute_general_skill_template(Key.SOL_JANUS, self.direction,
+                                       jump_times=self.jump_times,
+                                       num_press=self.num_press)
 
 
 class ErdaShower(Command):
     """
-    Use ErdaShower in a given direction, Placing ErdaFountain if specified. Adds the player's position
-    to the current Layout if necessary.
+    Uses 'SolJanus' in a given direction, or towards the center of the map if
+    no direction is specified.
     """
 
-    def __init__(self, direction=None, jump='False', use_erda_foundation='False'):
+    def __init__(self, direction=None, jump_times=0, num_press=3):
         super().__init__(locals())
-        if direction is not None:
-            self.direction = settings.validate_arrows(direction)
-        else:
-            self.direction = None
-        self.jump = settings.validate_boolean(jump)
-        self.use_erda_foundation = settings.validate_boolean(use_erda_foundation)
-
-    def main(self):
-        if self.use_erda_foundation:
-            press(Key.ERDA_SHOWER, 3)
-        else:
-            num_presses = 3
-            time.sleep(0.05)
-
-            if self.direction in ['up', 'down']:
-                num_presses = 2
-            if self.direction != 'up':
-                key_down(self.direction)
-                time.sleep(0.05)
-            if self.jump:
-                if self.direction == 'down':
-                    press(Key.JUMP, 3, down_time=0.1)
-                else:
-                    press(Key.JUMP, 1)
-            if self.direction == 'up':
-                key_down(self.direction)
-                time.sleep(0.05)
-
-            press(Key.ERDA_SHOWER, num_presses)
-            key_up(self.direction)
-
-        if settings.record_layout:
-            config.layout.add(*config.player_pos)
-
-
-class ShadowBite(Command):
-
-    def __init__(self, jump='False', direction=None):
-        super().__init__(locals())
-        if direction is None or str(direction).lower() == 'none':
-            self.direction = None
-        else:
-            self.direction = direction
-        self.jump = settings.validate_boolean(jump)
-
-    def main(self):
-        if self.direction:
-            key_down(self.direction)
-        if self.jump:
-            press(Key.JUMP, 1, down_time=0.1, up_time=0.15)
-        press(Key.SHADOW_BITE, 3)
-        if self.direction:
-            key_up(self.direction)
-
-
-class RapidThrow(Command):
-    """Uses 'True Arachnid Reflection' once."""
-
-    def __init__(self, jump='False'):
-        super().__init__(locals())
-        self.jump = settings.validate_boolean(jump)
-
-    def main(self):
-        if self.jump:
-            press(Key.JUMP, 1, down_time=0.1, up_time=0.15)
-        press(Key.RAPID_THROW, 3)
-
-
-class FlashJumpWithQuintupleStarRandomDirection(Command):
-    """Performs a flash jump in the given direction."""
-
-    def __init__(self, direction, jump_times=1, low_jump='False', reverse_first_jump='False', release_direction='True'):
-        super().__init__(locals())
-        self.direction = settings.validate_arrows(direction)
+        self.direction = settings.validate_horizontal_arrows(direction, nullable=True)
+        self.num_press = settings.validate_positive_int(num_press)
         self.jump_times = settings.validate_non_negative_int(jump_times)
-        self.low_jump = settings.validate_boolean(low_jump)
-        self.reverse_first_jump = settings.validate_boolean(reverse_first_jump)
-        self.release_direction = settings.validate_boolean(release_direction)
 
     def main(self):
-        reversed_direction = 'left' if self.direction == 'right' else 'right'
-        reverse_first_jump_enabled = self.reverse_first_jump and self.direction in ['left', 'right']
-        if reverse_first_jump_enabled:
-            key_down(reversed_direction)
-        else:
-            key_down(self.direction)
-
-        def reverse_first_jump_func():
-            if reverse_first_jump_enabled:
-                key_down(self.direction)
-                utils.sleep_in_floating(0.05)
-                key_up(reversed_direction)
-                utils.sleep_in_floating(0.05)
-
-        time.sleep(utils.random_in_floating(0.1))
-        human_like()
-        delay = 0.01
-        if not self.low_jump:
-            jump_num = 1
-            if self.direction == 'down':
-                jump_num += 1
-            press(Key.JUMP, jump_num)
-            reverse_first_jump_func()
-
-            if self.direction == 'up':
-                press(Key.JUMP, 1, last_up_time=0.4)
-            else:
-                press(Key.JUMP, self.jump_times, last_up_time=delay)
-        else:
-            key_down(Key.JUMP)
-            utils.sleep_in_floating(0.05)
-            reverse_first_jump_func()
-            press(Key.FLASH_JUMP, self.jump_times, last_up_time=delay)
-            key_up(Key.JUMP)
-
-        utils.sleep_in_floating(0.1)
-        press(Key.QUINTUPLE_STAR, 2, up_time=delay)
-        if self.release_direction:
-            key_up(self.direction)
-        time.sleep(utils.random_in_floating(0.2 + self.jump_times * 0.1))
+        execute_general_skill_template(Key.ERDA_SHOWER, self.direction,
+                                       jump_times=self.jump_times,
+                                       num_press=self.num_press)
 
 
-class UpJumpAndFlashJumpWithQuintupleStarRandomDirection(Command):
-    """Performs a flash jump in the given direction."""
+class TrueArachnidReflection(Command):
+    """
+    Uses 'SolJanus' in a given direction, or towards the center of the map if
+    no direction is specified.
+    """
 
-    def __init__(self, direction):
+    def __init__(self, direction=None, jump_times=0, num_press=3):
         super().__init__(locals())
-        self.direction = settings.validate_horizontal_arrows(direction)
+        self.direction = settings.validate_horizontal_arrows(direction, nullable=True)
+        self.num_press = settings.validate_positive_int(num_press)
+        self.jump_times = settings.validate_non_negative_int(jump_times)
 
     def main(self):
-        # up jump
-        key_down(self.direction)
-        key_down('up')
-        press(Key.JUMP, 3)
-        key_up('up')
-        utils.random_in_floating(0.3)
+        execute_general_skill_template(Key.TRUE_ARACHNID_REFLECTION, self.direction,
+                                       jump_times=self.jump_times,
+                                       num_press=self.num_press)
 
-        # then horizontally jump
-        time.sleep(utils.random_in_floating(0.1))
-        delay = 0.01
-        press(Key.JUMP, 2, last_up_time=delay)
-        utils.sleep_in_floating(0.1)
-        press(Key.QUINTUPLE_STAR, 2, up_time=delay)
-        key_up(self.direction)
+
+class SolarCrest(Command):
+    """
+    Uses 'SolJanus' in a given direction, or towards the center of the map if
+    no direction is specified.
+    """
+
+    def __init__(self, direction=None, jump_times=0, num_press=3):
+        super().__init__(locals())
+        self.direction = settings.validate_horizontal_arrows(direction, nullable=True)
+        self.num_press = settings.validate_positive_int(num_press)
+        self.jump_times = settings.validate_non_negative_int(jump_times)
+
+    def main(self):
+        execute_general_skill_template(Key.SOLAR_CREST, self.direction,
+                                       jump_times=self.jump_times,
+                                       num_press=self.num_press)
+
+
+class HeroEcho(Command):
+    """
+    Uses 'SolJanus' in a given direction, or towards the center of the map if
+    no direction is specified.
+    """
+
+    def __init__(self, direction=None, jump_times=0, num_press=3):
+        super().__init__(locals())
+        self.direction = settings.validate_horizontal_arrows(direction, nullable=True)
+        self.num_press = settings.validate_positive_int(num_press)
+        self.jump_times = settings.validate_non_negative_int(jump_times)
+
+    def main(self):
+        execute_general_skill_template(Key.HERO_ECHO, self.direction,
+                                       jump_times=self.jump_times,
+                                       num_press=self.num_press)
+
+
+class GuildBuffCriticalDamage(Command):
+    """
+    Uses 'SolJanus' in a given direction, or towards the center of the map if
+    no direction is specified.
+    """
+
+    def __init__(self, direction=None, jump_times=0, num_press=3):
+        super().__init__(locals())
+        self.direction = settings.validate_horizontal_arrows(direction, nullable=True)
+        self.num_press = settings.validate_positive_int(num_press)
+        self.jump_times = settings.validate_non_negative_int(jump_times)
+
+    def main(self):
+        execute_general_skill_template(Key.G_BUFF_CRI, self.direction,
+                                       jump_times=self.jump_times,
+                                       num_press=self.num_press)
+
+
+class GuildBuffDamage(Command):
+    """
+    Uses 'SolJanus' in a given direction, or towards the center of the map if
+    no direction is specified.
+    """
+
+    def __init__(self, direction=None, jump_times=0, num_press=3):
+        super().__init__(locals())
+        self.direction = settings.validate_horizontal_arrows(direction, nullable=True)
+        self.num_press = settings.validate_positive_int(num_press)
+        self.jump_times = settings.validate_non_negative_int(jump_times)
+
+    def main(self):
+        execute_general_skill_template(Key.G_BUFF_DAM, self.direction,
+                                       jump_times=self.jump_times,
+                                       num_press=self.num_press)
+
+
+class HyperSkillDamage(Command):
+    """
+    Uses 'SolJanus' in a given direction, or towards the center of the map if
+    no direction is specified.
+    """
+
+    def __init__(self, direction=None, jump_times=0, num_press=3):
+        super().__init__(locals())
+        self.direction = settings.validate_horizontal_arrows(direction, nullable=True)
+        self.num_press = settings.validate_positive_int(num_press)
+        self.jump_times = settings.validate_non_negative_int(jump_times)
+
+    def main(self):
+        execute_general_skill_template(Key.HYPER_BUFF_DAM, self.direction,
+                                       jump_times=self.jump_times,
+                                       num_press=self.num_press)
+
+
+class GoddessBuff(Command):
+    """
+    Uses 'SolJanus' in a given direction, or towards the center of the map if
+    no direction is specified.
+    """
+
+    def __init__(self, direction=None, jump_times=0, num_press=3):
+        super().__init__(locals())
+        self.direction = settings.validate_horizontal_arrows(direction, nullable=True)
+        self.num_press = settings.validate_positive_int(num_press)
+        self.jump_times = settings.validate_non_negative_int(jump_times)
+
+    def main(self):
+        execute_general_skill_template(Key.GODDESS_BUFF, self.direction,
+                                       jump_times=self.jump_times,
+                                       num_press=self.num_press)

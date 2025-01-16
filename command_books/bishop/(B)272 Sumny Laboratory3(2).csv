@@ -1,0 +1,84 @@
+$, target=familiar_auto_level_up_enabled, value=False
+$, target=familiar_auto_level_up_start_row_and_column, value=1:1
+$, target=familiar_auto_level_up_end_row_and_column, value=2:1
+$, target=familiar_auto_level_up_summoned_familiar_to_put_down, value=3:1
+$, target=whether_refill_familiar_gauge, value=True
+$, target=refill_familiar_gauge_threshold, value=25
+$, target=auto_use_wealth_potion, value=True
+$, target=whether_reconnect_when_game_disconnected, value=True
+$, target=whether_proactively_reconnect_in_a_specified_period, value=False
+$, target=proactively_reconnect_period, value=3600
+$, target=switch_skills_to_open_when_reconnect_game, "value=s, n, 5, 0, 9, -, s, n, 5, 8, 7, q, n, 5", set_in_init=True
+$, target=starter_for_game_when_reconnect, value=SteamStarter, set_in_init=True
+$, target=whether_change_channel_when_solving_runes_timeout, value=True
+$, target=change_channel_when_other_players_stay_too_long, value=True
+$, target=rune_alert_delay, value=75
+$, target=auto_stop_and_start_game_in_specified_time_enabled, value=False
+$, target=time_range_to_auto_stop_game, value=03:53:12 09:02:52
+$, target=time_range_to_auto_start_game, value=09:02:53 03:53:12
+@, label=left
+>M, labels=buff1-95:buff2-35:buff3-95, go_back=True
+>M, labels=p1, go_back=True
+*, x=0.188, y=0.226, frequency=1, skip=False, adjust=True, period=0
+    WaitForMonsterRefreshing, monster_name=GuardAgate, match_threshold=0.6, monster_number_to_attack=1, min_wait_time=0
+>M, labels=left_inner2, go_back=True
+>R, labels=right
+@, label=left_inner1
+*, x=0.188, y=0.226, frequency=1, skip=False, adjust=True, period=0, custom_tolerance=0.05
+    Peacemaker, num_press=3, tp_after=right
+    BigBang
+    WaitInFloating, duration=1.00
+@, label=left_inner2
+*, x=0.188, y=0.226, frequency=1, skip=False, adjust=True, period=0, custom_tolerance=0.05
+    BigBang, direction=up, tp_after=right
+    BigBang
+@, label=right
+*, x=0.290, y=0.226, frequency=1, skip=False, adjust=True, period=0
+    WaitForMonsterRefreshing, monster_name=GuardAgate, match_threshold=0.6, monster_number_to_attack=1, min_wait_time=0
+>M, labels=right_inner1, go_back=True
+>R, labels=left
+@, label=right_inner1
+*, x=0.290, y=0.226, frequency=1, skip=False, adjust=True, period=0, custom_tolerance=0.05
+    BigBang, tp_after=left
+    Peacemaker, num_press=3
+    WaitInFloating, duration=1.00
+@, label=right_inner2
+*, x=0.290, y=0.226, frequency=1, skip=False, adjust=True, period=0, custom_tolerance=0.05
+    BigBang, tp_after=left
+    BigBang, direction=up
+@, label=buff1
+*, frequency=1, skip=False, adjust=True, period=0
+    Infinity
+@, label=buff2
+*, frequency=1, skip=False, adjust=True, period=0
+    TermsAndConditions
+    AngelOfBalance
+    WaitInFloating, duration=0.2
+    Benediction
+@, label=buff3
+*, frequency=1, skip=False, adjust=True, period=0
+    UnreliableMemory
+@, label=p1
+*, x=0.177, y=0.226, frequency=1, skip=False, adjust=True, period=39, print_elapsed=True
+    Teleport, direction=down
+    Teleport, direction=down
+    MoveAndAdjust, x=0.171, y=0.376, max_steps=15
+    SolJanus, tp_after=right
+    MoveAndAdjust, x=0.283, y=0.376, max_steps=15
+    Teleport, direction=right
+    MoveAndAdjust, x=0.387, y=0.376, max_steps=15
+    SolJanus, tp_after=down
+    MoveAndAdjust, x=0.763, y=0.452, max_steps=15
+    ErdaShower, direction=left, use_erda_foundation=False
+    WaitInFloating, duration=0.2
+    HeavensDoor, tp_after=down
+    Teleport, direction=up, jump=True, jump_times=3
+    MoveAndAdjust, x=0.780, y=0.231, max_steps=15
+    FountainOfVengeance
+    WaitInFloating, duration=0.2
+    Peacemaker, num_press=3, tp_after=down
+    Teleport, direction=down, jump=True
+    MoveAndAdjust, x=0.780, y=0.452, max_steps=15, custom_tolerance=0.05
+    MoveAndAdjust, x=0.188, y=0.452, max_steps=15
+    WaitInFloating, duration=0.2
+    Teleport, direction=up, jump=True, jump_times=4

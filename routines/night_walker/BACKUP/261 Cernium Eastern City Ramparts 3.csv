@@ -9,7 +9,6 @@ $, target=whether_reconnect_when_game_disconnected, value=True
 $, target=whether_proactively_reconnect_in_a_specified_period, value=False
 $, target=proactively_reconnect_period, value=3600
 $, target=switch_skills_to_open_when_reconnect_game, "value=s, 0, 9, `", set_in_init=True
-$, target=clear_monsters_skills_to_use_before_solving_rune, "value=QuintupleStar-0.1, ShadowBite", set_in_init=True
 $, target=starter_for_game_when_reconnect, value=SteamStarter, set_in_init=True
 $, target=whether_change_channel_when_solving_runes_timeout, value=True
 $, target=change_channel_when_other_players_stay_too_long, value=True
@@ -23,13 +22,17 @@ $, target=time_range_to_auto_start_game, value=09:02:53 03:53:12
 >M, labels=common, go_back=True
 *, x=0.262, y=0.309, frequency=1, skip=False, adjust=True, period=0, custom_tolerance=0.01
     QuintupleStar, direction=right, jump_times=3
+*, x=0.425, y=0.309, frequency=1, skip=False, adjust=True, period=0, custom_tolerance=0.05
     QuintupleStar, direction=right, walk_time=0.1, jump_times=3
+*, x=0.592, y=0.309, frequency=1, skip=False, adjust=True, period=0, custom_tolerance=0.01
     RopeLift
     QuintupleStar
     WaitInFloating, duration=0.2
+*, x=0.592, y=0.167, frequency=1, skip=False, adjust=True, period=0, custom_tolerance=0.01
     QuintupleStar, direction=left, jump_times=2
+*, x=0.446, y=0.167, frequency=1, skip=False, adjust=True, period=0, custom_tolerance=0.05
     QuintupleStar, direction=left, walk_time=0.1, jump_times=3
-    MoveAndAdjust, x=0.270, y=0.167, max_steps=15
+*, x=0.270, y=0.167, frequency=1, skip=False, adjust=True, period=0, custom_tolerance=0.01
     QuintupleStar, direction=down, jump_times=2
     QuintupleStar, direction=down, walk_time=0.1, jump_times=2
 >M, labels=main
@@ -41,24 +44,19 @@ $, target=time_range_to_auto_start_game, value=09:02:53 03:53:12
     WaitInFloating, duration=0.2
     QuintupleStar, direction=right, jump_times=2
     QuintupleStar, direction=right, walk_time=0.1, jump_times=3
-    QuintupleStar, direction=right, walk_time=0.1, jump_times=2
-    QuintupleStar, direction=up, walk_time=0.1, jump_times=2
-    WaitInFloating, duration=0.4
-    MoveAndAdjust, x=0.708, y=0.240, max_steps=15, custom_tolerance=0.02
-    ErdaShower, direction=right
+    QuintupleStar, direction=right, walk_time=0.1, jump_times=3, up_jump_and_flash_jump=True
+    MoveAndAdjust, x=0.764, y=0.240, max_steps=15
+    ErdaShower, direction=left
     WaitInFloating, duration=0.2
-    QuintupleStar, direction=left, walk_time=0.3, jump_times=2
+    DarkOmen
+    WaitInFloating, duration=0.2
     RopeLift
-    WaitInFloating, duration=0.7
-    QuintupleStar
+    QuintupleStar, direction=left, walk_time=0.1, jump_times=3, up_jump_and_flash_jump=True
+    QuintupleStar, direction=left, walk_time=0.1, jump_times=3
+    MoveAndAdjust, x=0.356, y=0.082, max_steps=15
     GreaterDarkServant
-    WaitInFloating, duration=0.4
-    ShadowBite, jump_times=1
-    WaitInFloating, duration=0.2
-@, label=buff
+@, label=buff1
 >M, labels=shadow_spear-87:true_arachnid_reflection-50:solar_crest-50:nothing-50.5, go_back=True
-*, frequency=1, skip=False, adjust=True, period=0
-    WaitInFloating, duration=0.2
 @, label=nothing
 @, label=shadow_spear
 *, frequency=1, skip=False, adjust=True, period=0

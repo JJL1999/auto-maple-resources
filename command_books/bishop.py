@@ -224,8 +224,8 @@ def teleport(direction, jump=None, jump_times=1):
         if jump and jump_times > 1:
             utils.sleep_in_floating(0.02)
             press(Key.JUMP, jump_times, down_time=0.01, up_time=0.01)
-            utils.sleep_in_floating(jump_times * 0.015, floating=0.05)
-        utils.sleep_in_floating(0.05, floating=0.05)
+            utils.sleep_in_floating(jump_times * 0.015)
+        utils.sleep_in_floating(0.05)
     press(Key.TELEPORT, num_presses)
     key_up(direction)
     utils.sleep_in_floating(0.05)
